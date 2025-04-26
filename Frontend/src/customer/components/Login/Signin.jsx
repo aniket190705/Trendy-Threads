@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../context/AuthContext"; // Adjust path if needed
+import { useAuth } from "../../../Context/AuthContext"; // Adjust path if needed
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {

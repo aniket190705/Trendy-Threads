@@ -57,6 +57,7 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
             setUserData(data);
             setIsSignedIn(true);
             login(data);
+            localStorage.setItem("user", JSON.stringify(data));
             console.log("User data from home", data);
           } else {
             console.error("Failed to fetch user data");

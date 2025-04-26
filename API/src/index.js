@@ -16,4 +16,9 @@ app.use('/auth', authRoute);
 
 const userRouters = require('./routes/user.route.js');
 app.use('/api/users', userRouters);
+
+
+const paymentRouter = require("./routes/payments.routes.js")
+app.use("/api/payments", paymentRouter)
+
 module.exports = app;

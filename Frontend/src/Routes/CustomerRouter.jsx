@@ -12,6 +12,7 @@ import OrderDetails from "../customer/components/Order/OrderDetails";
 import Order from "../customer/components/Order/Order";
 import Signin from "../customer/components/Login/Signin";
 import Signup from "../customer/components/Login/Signup";
+import PaymentSuccessful from "../customer/PaymentUpdate/PaymentSuccessful";
 const CustomerRouter = () => {
   return (
     <div>
@@ -35,6 +36,7 @@ const CustomerRouter = () => {
         ></Route>
         <Route path="/account/signup" element={<Signup />}></Route>
         <Route path="/account/signin" element={<Signin />}></Route>
+        <Route path="/payment/:id" element={<PaymentSuccessful />}></Route>
       </Routes>
 
       <div>

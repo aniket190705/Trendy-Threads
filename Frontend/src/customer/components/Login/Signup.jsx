@@ -20,6 +20,7 @@ export default function Signup() {
         body: JSON.stringify(formDataObj),
       });
       const result = await response.json();
+      console.log("response: ", result.user);
       if (response.ok) {
         console.log("logged in successful: " + result.message);
         localStorage.setItem("token", result.jwt); // ✅ Store JWT

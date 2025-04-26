@@ -5,14 +5,19 @@ const bcrypt = require('bcrypt');
 const register = async (req, res) => {  // This function is called when a new user registers.
     try {
         const user = await userService.createUser(req.body);
+        if (!user) {
+            return res.status(400).send({ error: "user not created" });
+        }
         const jwt = jwtProvider.generateToken(user._id);
         // Create a cart for the user
         await cartSevice.createCart(user._id);
-        return res.status(200).send({ jwt, message: "User registered successfully" });
+        console.log("user registered: ", user);
+        return res.status(200).send({ jwt, message: "User registered successfully", user });
 
     }
 
     catch (err) {
+        console.log("error in register: ", err);
         return res.status(500).send({ error: err.message });
     }
 }

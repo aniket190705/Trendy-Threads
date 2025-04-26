@@ -2,9 +2,13 @@ import React from "react";
 import CartItem from "./CartItem";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Cart = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const item = location.state || {};
+
   return (
     <div>
       <div className="lg:grid grid-cols-3 lg:px-16 relative">
@@ -41,7 +45,7 @@ const Cart = () => {
             <Button
               className="w-full mt-5"
               variant="contained"
-              onClick={() => navigate("/checkout?step=2")}
+              onClick={() => navigate("/checkout?step=2", { state: item })}
               sx={{
                 px: "2.5rem",
                 py: ".7rem",

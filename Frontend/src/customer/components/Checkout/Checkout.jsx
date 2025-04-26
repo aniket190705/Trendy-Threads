@@ -8,15 +8,18 @@ import Typography from "@mui/material/Typography";
 import { useLocation } from "react-router-dom";
 import DeliveryAddressForm from "./DeliveryAddressForm";
 import OrderSummary from "./OrderSummary";
-
+import { useState } from "react";
 const steps = ["Log In", "Delivery Address", "Order Summary", "Payment"];
 
 export default function Checkout() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+
   const location = useLocation();
   const querySearch = new URLSearchParams(location.search);
   const step = parseInt(querySearch.get("step"), 10) || 0; // Convert string to integer
 
+  const item = location.state || {};
+  console.log("item from checkout: ", item);
   const isStepOptional = (step) => step === 1;
 
   const handleNext = () =>
@@ -69,7 +72,11 @@ export default function Checkout() {
             </Box>
 
             <div className="mt-10">
-              {step === 2 ? <DeliveryAddressForm /> : <OrderSummary />}
+              {step === 2 ? (
+                <DeliveryAddressForm item={item} />
+              ) : (
+                <OrderSummary />
+              )}
             </div>
           </React.Fragment>
         )}

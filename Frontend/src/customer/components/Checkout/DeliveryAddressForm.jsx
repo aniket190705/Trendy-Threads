@@ -1,16 +1,88 @@
 import React from "react";
 import { Box, Button, Grid2, TextField } from "@mui/material";
 import AddressCard from "../AddressCard/AddressCard";
+import Checkout from "./Checkout.jsx";
+import { useNavigate } from "react-router-dom";
 
-const DeliveryAddressForm = () => {
-  const handleSubmit = (e) => {
+// import { create } from "../../../../../API/src/models/order.model.js";
+
+const DeliveryAddressForm = ({ item }) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("item from delivery address form: ", item);
     const data = new FormData(e.currentTarget);
+    // const a = Checkout.hojapls();
 
     // Convert FormData to an object
     const formDataObj = Object.fromEntries(data.entries());
 
-    console.log("address", formDataObj);
+    // user: data.userId,  // Assuming userId is passed in data
+    // totalPrice: data.totalPrice, // Assuming totalPrice is passed in data
+    // totalItem: data.totalItem, // Assuming totalItem is passed in data
+    // shippingAddress: data.shippingAddress
+    console.log("address: ", formDataObj);
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log("userId from delivery address form: ", user._id);
+    const orderData = {
+      userId: user._id,
+      totalPrice: item.price,
+      totalItem: item.quantity,
+      shippingAddress: formDataObj,
+    };
+
+    //Creating order
+    console.log("order data: ", orderData);
+    try {
+      const response = await fetch(
+        "http://localhost:5454/api/payments/createOrder",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      const text = await response.text(); // read once
+      let result;
+      result = JSON.parse(text); // parse the text to JSON
+      if (response.ok) {
+        console.log("Order created successfully:", result.order);
+        createPaymentLink(result.order._id); // Call createPaymentLink with the order ID
+      } else {
+        console.log(result?.error || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const createPaymentLink = async (orderId) => {
+    try {
+      console.log("orderId from delivery address formmm: ", orderId);
+      const response = await fetch(
+        `http://localhost:5454/api/payments/paymentlink/${orderId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // body: JSON.stringify(formDataObj),
+        }
+      );
+      const result = await response.json();
+      if (response.ok) {
+        console.log("link created successfully: ", result.paymentLink);
+        // ✅ Store JWT
+        window.location.href = result.paymentLink.payment_link_url; // ✅ Redirect to Home Page
+      } else {
+        console.log("Error redirecting to payment link: ", result.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -27,7 +99,7 @@ const DeliveryAddressForm = () => {
               size="large"
               variant="contained"
             >
-              Deliver Here
+              Deliver Here and Pay
             </Button>
           </div>
         </Grid2>
@@ -121,7 +193,7 @@ const DeliveryAddressForm = () => {
                     variant="contained"
                     type="submit"
                   >
-                    Deliver Here
+                    Deliver Here and Pay
                   </Button>
                 </Grid2>
               </Grid2>
