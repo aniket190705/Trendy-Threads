@@ -7,7 +7,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useState } from "react";
 import { mens_kurta } from "../../../data/mensKurta";
 import { useEffect } from "react";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../../Context/AuthContext";
 const HomeSectionCarousel = ({ data, sectionName }) => {
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token");
