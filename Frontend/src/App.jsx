@@ -13,7 +13,7 @@ import OrderDetails from "./customer/components/Order/OrderDetails";
 import CustomerRouter from "./Routes/CustomerRouter";
 import ProductCard from "./customer/components/Product/ProductCard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext"; // ✅ Import AuthProvider
+import { AuthProvider } from "./Context/AuthContext";
 const App = () => {
   return (
     <AuthProvider>
