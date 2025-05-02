@@ -43,7 +43,7 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
         try {
           console.log("Token in home section carousel", token);
           const response = await fetch(
-            "https://trendy-threads-jsld.onrender.comapi/users/profile",
+            "https://trendy-threads-jsld.onrender.com/api/users/profile",
             {
               method: "GET",
               headers: {
