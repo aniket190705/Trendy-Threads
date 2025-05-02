@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: "http://localhost:5173", // Allow requests only from your frontend
+    origin: "https://trendy-threads-jsld.onrender.com", // Allow requests only from your frontend
     methods: "GET,POST,PUT,DELETE",  // Allow specific HTTP methods
     credentials: true                // Allow cookies if needed
 }));

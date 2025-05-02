@@ -35,7 +35,7 @@ const DeliveryAddressForm = ({ item }) => {
     console.log("order data: ", orderData);
     try {
       const response = await fetch(
-        "http://localhost:5454/api/payments/createOrder",
+        "https://trendy-threads-jsld.onrender.com/api/payments/createOrder",
         {
           method: "POST",
           headers: {
@@ -63,7 +63,7 @@ const DeliveryAddressForm = ({ item }) => {
     try {
       console.log("orderId from delivery address formmm: ", orderId);
       const response = await fetch(
-        `http://localhost:5454/api/payments/paymentlink/${orderId}`,
+        `https://trendy-threads-jsld.onrender.com/api/payments/paymentlink/${orderId}`,
         {
           method: "POST",
           headers: {

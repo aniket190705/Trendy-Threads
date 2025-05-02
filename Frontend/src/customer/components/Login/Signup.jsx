@@ -12,13 +12,16 @@ export default function Signup() {
     const formDataObj = Object.fromEntries(data.entries());
     console.log("user: ", formDataObj);
     try {
-      const response = await fetch("http://localhost:5454/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formDataObj),
-      });
+      const response = await fetch(
+        "https://trendy-threads-jsld.onrender.com/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataObj),
+        }
+      );
       const result = await response.json();
       console.log("response: ", result.user);
       if (response.ok) {
