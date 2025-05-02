@@ -1,5 +1,5 @@
 const app = require('./index.js');
-const connectDB = require('./config/db.js');
+const connectDB = require('./src/config/db.js');
 
 const PORT = 5454;
 app.listen(PORT, async () => {

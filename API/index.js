@@ -11,14 +11,14 @@ app.use(cors({
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
-const authRoute = require('./routes/auth.route.js');
+const authRoute = require('./src/routes/auth.route.js');
 app.use('/auth', authRoute);
 
-const userRouters = require('./routes/user.route.js');
+const userRouters = require('./src/routes/user.route.js');
 app.use('/api/users', userRouters);
 
 
-const paymentRouter = require("./routes/payments.routes.js")
+const paymentRouter = require("./src/routes/payments.routes.js")
 app.use("/api/payments", paymentRouter)
 
 module.exports = app;
