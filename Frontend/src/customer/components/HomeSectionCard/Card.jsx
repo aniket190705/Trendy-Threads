@@ -1,21 +1,67 @@
-import React from "react";
+import React, { useRef } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({ product }) => {
+const CardCarousel = ({ product }) => {
+  const navigate = useNavigate();
+  const carouselRef = useRef(null);
+  console.log(product);
+  const scroll = (direction) => {
+    const container = carouselRef.current;
+    const scrollAmount = container.offsetWidth / 2;
+    container.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="cursor-pointer flex flex-col justify-center items-center bg-white rounded-lg shadow-lg overflow-hidden w-[15] m-3 ">
-      <div className="h-[13rem] w-[10rem] flex justify-center">
-        <img
-          src={product.imageUrl}
-          className="object-cover object-top w-full h-full"
-          alt=""
-        />
+    <div className="relative w-full px-6">
+      {/* Left Arrow */}
+      <button
+        onClick={() => scroll("left")}
+        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full"
+      >
+        <FaChevronLeft />
+      </button>
+
+      {/* Carousel */}
+      <div
+        ref={carouselRef}
+        className="flex overflow-x-auto scrollbar-hide space-x-4 scroll-smooth"
+        style={{ scrollSnapType: "x mandatory" }}
+      >
+        {product.map((item, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0 w-[18%] min-w-[18%] snap-start bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            onClick={() => {
+              navigate(`/product/${item.productId}`, {
+                state: {
+                  item,
+                },
+              });
+            }}
+          >
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="h-[18rem] w-full object-cover-top"
+            />
+            <div className="p-2 text-center font-semibold">{item.title}</div>
+          </div>
+        ))}
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-medium text-gray-900">{product.brand}</h3>
-        <p className="mt-2 text-sm text-gray-500">{product.title}</p>
-      </div>
+
+      {/* Right Arrow */}
+      <button
+        onClick={() => scroll("right")}
+        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-md p-2 rounded-full"
+      >
+        <FaChevronRight />
+      </button>
     </div>
   );
 };
 
-export default Card;
+export default CardCarousel;

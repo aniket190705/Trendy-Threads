@@ -94,11 +94,12 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const item = location.state || {};
+  const item = location.state.item || {};
+
   const itemObj = new Object(item);
   const itemString = JSON.stringify(itemObj);
-  console.log("item: " + item);
-  console.log("product obj: " + itemObj);
+  console.log("item: ", item);
+  console.log("product obj: ", itemObj);
   console.log("product string: " + itemString);
 
   return (

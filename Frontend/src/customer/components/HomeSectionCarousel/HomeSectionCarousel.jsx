@@ -70,65 +70,9 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
     }
   }, [token]);
 
-  const syncActiveIndex = ({ item }) => {
-    setActiveIndex(item);
-  };
-  const items = data.slice(0, 10).map((item) => {
-    return <Card product={item} />;
-  });
-
   return (
-    <div className="relative p-4 lg:p-8">
-      <div className="relative p-5">
-        <h2 className="m-4 font-bold text-3xl">{sectionName}</h2>
-        <AliceCarousel
-          ref={carouselRef}
-          className="py-7"
-          items={items}
-          disableButtonsControls
-          responsive={responsive}
-          disableDotsControls
-          onSlideChanged={syncActiveIndex}
-          activeIndex={activeIndex}
-        />
-      </div>
-      {activeIndex != items.length - 5 && (
-        <Button
-          variant="contained"
-          className="z-50"
-          sx={{
-            position: "absolute",
-            top: "12.5rem",
-            transform: "rotate(90deg)",
-            right: "0rem",
-          }}
-          onClick={nextSlide}
-        >
-          <KeyboardArrowRightIcon
-            className=""
-            sx={{ transform: "rotate(-90deg)" }}
-          />
-        </Button>
-      )}
-      {activeIndex != 0 && (
-        <Button
-          variant="contained"
-          className="z-50"
-          sx={{
-            position: "absolute",
-            top: "12.5rem",
-            transform: "rotate(90deg)",
-            left: "0rem",
-          }}
-          onClick={prevSlide}
-        >
-          <KeyboardArrowRightIcon
-            className=""
-            sx={{ transform: "rotate(90deg)" }}
-          />
-        </Button>
-      )}
-    </div>
+    //
+    <Card product={data} />
   );
 };
 
