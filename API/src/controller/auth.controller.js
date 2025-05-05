@@ -1,7 +1,8 @@
 const userService = require('../services/user.service');
 const jwtProvider = require('../config/jwtprovider');
 const cartSevice = require('../services/cart.service');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
+
 const register = async (req, res) => {  // This function is called when a new user registers.
     try {
         const user = await userService.createUser(req.body);

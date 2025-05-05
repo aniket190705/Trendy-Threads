@@ -1,7 +1,5 @@
 const orderService = require('../services/order.service');
-// const jwtProvider = require('../config/jwtprovider');
-// const cartSevice = require('../services/cart.service');
-// const bcrypt = require('bcrypt');
+
 const createOrder = async (req, res) => {
     try {
         const order = await orderService.createOrder(req.body);
