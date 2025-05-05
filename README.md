@@ -32,5 +32,14 @@ Trendy Threads is a modern and responsive e-commerce clothing website that lets 
 
 ---
 
-## 📂 Folder Structure (Frontend)
+## 🚧 Development Status
 
+This project is still under active development. Contributions and suggestions are welcome!
+
+---
+
+## 📬 Contact
+
+Feel free to reach out if you have any questions or feedback.
+
+---
