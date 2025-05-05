@@ -7,7 +7,8 @@ async function createOrder(data) {
             user: data.userId,  // Assuming userId is passed in data
             totalPrice: data.totalPrice, // Assuming totalPrice is passed in data
             totalItem: data.totalItem, // Assuming totalItem is passed in data
-            shippingAddress: data.shippingAddress.Address
+            shippingAddress: data.shippingAddress.Address,
+            discountedPrice: data.discountedPrice,
         });
         await order.save();
         console.log("created order: ", order);

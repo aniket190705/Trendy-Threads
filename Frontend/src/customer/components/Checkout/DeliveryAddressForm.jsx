@@ -28,6 +28,7 @@ const DeliveryAddressForm = ({ item }) => {
       userId: user._id,
       totalPrice: item.price,
       totalItem: item.quantity,
+      discountedPrice: discountedPrice,
       shippingAddress: formDataObj,
     };
 
