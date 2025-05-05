@@ -18,7 +18,7 @@ Trendy Threads is a modern and responsive e-commerce clothing website that lets 
 - 🔄 **Carousel Slider:** Horizontally scrollable product cards with navigation arrows.
 - 👤 **User Authentication:** Sign up and log in securely.
 - 🛒 **Add to Cart:** Easily add your favorite products to the cart.
-- 💳 **Checkout Flow:** (Coming Soon) Place orders and manage purchases.
+- 💳 **Checkout Flow:** Place orders and manage purchases.
 - 📱 **Responsive Design:** Mobile-friendly and optimized for all screen sizes.
 
 ---
