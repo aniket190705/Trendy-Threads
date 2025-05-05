@@ -8,7 +8,7 @@ const createPaymentLink = async (orderId) => {
             throw new Error("Order not found");
         }
         const paymentLinkRequest = {
-            amount: order.discountedPrice * 100,
+            amount: order.totalDiscountedPrice * 100,
             currency: "INR",
             // customer: {
             //     name: order.user.firstName + " " + order.user.lastName,
