@@ -94,7 +94,7 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const item = location.state.item || {};
+  const item = location.state || location.state.item || {};
 
   const itemObj = new Object(item);
   const itemString = JSON.stringify(itemObj);
