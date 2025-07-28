@@ -3,10 +3,16 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: "https://trendy-threads-sigma.vercel.app", // Allow requests only from your frontend
+    origin: ["https://trendy-threads-sigma.vercel.app", "http://localhost:3000"], // Allow requests only from your frontend
     methods: "GET,POST,PUT,DELETE",  // Allow specific HTTP methods
     credentials: true                // Allow cookies if needed
 }));
+// app.use(cors({
+//     origin: ["http://localhost:3000"], // or "*" for all origins in dev
+//     methods: "GET,POST,PUT,DELETE",
+//     credentials: true
+// })
+// )
 
 app.get('/', (req, res) => {
     res.send('Hello World');
