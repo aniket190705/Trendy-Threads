@@ -13,7 +13,7 @@ export default function PaymentSuccess() {
 
     if (razorpay_payment_id && orderId) {
       // Send details to backend to update order status
-      fetch("https://your-backend.com/api/payment/update", {
+      fetch("https://your-backend.com/api/payment/updateinfo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
