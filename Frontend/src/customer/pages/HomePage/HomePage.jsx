@@ -7,9 +7,7 @@ import { mens_kurta } from "../../../data/mensKurta";
 const HomePage = () => {
   return (
     <>
-      <div>
-        <MainCarousel clasName="-z-1" />
-      </div>
+      <div>{/* <MainCarousel clasName="-z-1" /> */}</div>
 
       <div>
         <HomeSectionCarousel data={mens_kurta} sectionName={"MENS"} />

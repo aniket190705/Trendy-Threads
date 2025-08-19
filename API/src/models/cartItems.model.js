@@ -6,15 +6,19 @@ const cartItemsSchema = new mongoose.Schema({
         ref: 'cart',
         required: true
     },
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'products',
-        required: true
-    },
-    size: {
+    productId: {
         type: Number,
         required: true
     },
+    // product: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'products',
+    //     required: true
+    // },
+    // size: {
+    //     type: Number,
+    //     required: true
+    // },
     quantity: {
         type: Number,
         required: true,
@@ -31,6 +35,26 @@ const cartItemsSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users',
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    discountPercent: {
+        type: Number,
+        required: true
+    },
+    imageUrl: {
+        type: String,
+        required: true
+    },
+    color: {
+        type: String,
         required: true
     },
 });

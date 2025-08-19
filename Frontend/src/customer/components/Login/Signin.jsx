@@ -8,13 +8,13 @@ const SignIn = () => {
   const { login } = useAuth();
   const [invalid, setInvalid] = useState(false);
   const navigate = useNavigate();
-
+  const { setCart } = useAuth();
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
       const response = await fetch(
-        "https://trendy-threads-jsld.onrender.comauth/signin",
+        `${import.meta.env.VITE_API_BASE_URL}/auth/signin`,
         {
           method: "POST",
           headers: {
@@ -25,9 +25,24 @@ const SignIn = () => {
       );
 
       const data = await response.json();
-      console.log("user: ", data);
 
       if (response.ok) {
+        // console.log("user from sign in: ", data.user);
+        // setCart(data.cart);
+        const fetchCart = async () => {
+          const response2 = await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/api/cart/${data.user._id}`
+          );
+
+          const data2 = await response2.json();
+          console.log("Cart fetched in signed in: ", data2);
+          localStorage.setItem("cart", JSON.stringify(data2));
+          setCart(data2); // Set the cart in AuthContext
+          // setCartItems(data.cartItems);
+          console.log("Cart fetched in signed in: ", data2);
+          // console.log("Cart items fetched in signed in: ", data);
+        };
+        fetchCart();
         localStorage.setItem("token", data.jwt);
         login(data.user); // Save user to context
         navigate("/"); // Redirect to homepage

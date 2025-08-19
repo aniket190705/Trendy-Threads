@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../Context/AuthContext";
 export default function Signup() {
   const [darkMode, setDarkMode] = useState(false);
 
   const navigate = useNavigate();
+  const { setCart } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -13,7 +15,7 @@ export default function Signup() {
     console.log("user: ", formDataObj);
     try {
       const response = await fetch(
-        "https://trendy-threads-jsld.onrender.com/auth/signup",
+        `${import.meta.env.VITE_API_BASE_URL}/auth/signup`,
         {
           method: "POST",
           headers: {
@@ -26,6 +28,10 @@ export default function Signup() {
       console.log("response: ", result.user);
       if (response.ok) {
         console.log("logged in successful: " + result.message);
+        const cart = result.cart;
+        localStorage.setItem("cart", JSON.stringify(cart)); // Save cart to localStorage
+        setCart(cart);
+        console.log("cart created while sign up:", cart); // Set the cart in AuthContext
         localStorage.setItem("token", result.jwt); // ✅ Store JWT
         navigate("/"); // ✅ Redirect to Home Page
       } else {

@@ -34,7 +34,7 @@ const CardCarousel = ({ product }) => {
         {product.map((item, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-[80%] sm:w-[50%] md:w-[35%] lg:w-[25%] xl:w-[20%] snap-start bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+            className="flex-shrink-0 w-[80%] sm:w-[50%] md:w-[25%] lg:w-[20%] xl:w-[18%] h-100 snap-start bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
             onClick={() => {
               navigate(`/product/${item.productId}`, {
                 state: item,

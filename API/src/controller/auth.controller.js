@@ -11,9 +11,9 @@ const register = async (req, res) => {  // This function is called when a new us
         }
         const jwt = jwtProvider.generateToken(user._id);
         // Create a cart for the user
-        await cartSevice.createCart(user._id);
+        const cart = await cartSevice.createCart(user._id);
         console.log("user registered: ", user);
-        return res.status(200).send({ jwt, message: "User registered successfully", user });
+        return res.status(200).send({ jwt, message: "User registered successfully", user, cart });
 
     }
 
@@ -36,7 +36,7 @@ const login = async (req, res) => {  // This function is called when a user logs
             return res.status(401).send({ error: "Invalid email or password" });
         }
         const jwt = jwtProvider.generateToken(user._id);
-        return res.status(200).send({ jwt, message: "User logged in successfully" });
+        return res.status(200).send({ jwt, message: "User logged in successfully", user });
     }
     catch (err) {
         return res.status(500).send({ error: err.message });

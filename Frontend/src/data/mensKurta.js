@@ -21,7 +21,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -50,7 +50,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -80,7 +80,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -109,7 +109,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -138,7 +138,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -167,7 +167,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -196,7 +196,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -225,7 +225,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -254,7 +254,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -283,7 +283,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -312,7 +312,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -341,7 +341,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -370,7 +370,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -399,7 +399,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -428,7 +428,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -457,7 +457,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -486,7 +486,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -515,7 +515,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -544,7 +544,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -572,7 +572,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -601,7 +601,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -630,7 +630,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -659,7 +659,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -688,7 +688,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -717,7 +717,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -746,7 +746,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -775,7 +775,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -804,7 +804,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -833,7 +833,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -862,7 +862,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -891,7 +891,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -920,7 +920,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -949,7 +949,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -978,7 +978,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1007,7 +1007,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1036,7 +1036,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1065,7 +1065,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1094,7 +1094,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1124,7 +1124,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",
@@ -1154,7 +1154,7 @@ export const mens_kurta = [
                 "quantity": 50
             }
         ],
-        "quantity": 100,
+        "quantity": 1,
         "topLavelCategory": "Men",
         "secondLavelCategory": "Clothing",
         "thirdLavelCategory": "mens_kurta",

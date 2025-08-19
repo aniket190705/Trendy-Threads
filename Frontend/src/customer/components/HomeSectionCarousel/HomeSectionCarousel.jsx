@@ -12,7 +12,7 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token");
 
-  const { login, isSignedIn, setIsSignedIn } = useAuth();
+  const { login, isSignedIn, setIsSignedIn, setUser } = useAuth();
   const responsive = {
     0: { items: 1 },
     720: { items: 3 },
@@ -41,9 +41,9 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
     } else {
       const fetchUserData = async () => {
         try {
-          console.log("Token in home section carousel", token);
+          // console.log("Token in home section carousel", token);
           const response = await fetch(
-            "https://trendy-threads-jsld.onrender.com/api/users/profile",
+            `${import.meta.env.VITE_API_BASE_URL}/api/users/profile`,
             {
               method: "GET",
               headers: {
@@ -54,11 +54,12 @@ const HomeSectionCarousel = ({ data, sectionName }) => {
 
           if (response.ok) {
             const data = await response.json();
+            setUser(data);
             setUserData(data);
             setIsSignedIn(true);
             login(data);
             localStorage.setItem("user", JSON.stringify(data));
-            console.log("User data from home", data);
+            // console.log("User data from home", data);
           } else {
             console.error("Failed to fetch user data");
           }

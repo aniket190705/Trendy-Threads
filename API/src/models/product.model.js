@@ -29,6 +29,7 @@ const productSchema = new mongoose.Schema({
         type: String,
 
     },
+
     color: {
         type: String,
     },
@@ -57,10 +58,6 @@ const productSchema = new mongoose.Schema({
         default: 0
     }],
 
-    category: {
-        type: String,
-        required: true
-    },
     createdAt: {
         type: Date,
         default: Date.now()

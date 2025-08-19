@@ -174,8 +174,8 @@ export default function Navigation() {
 
   const navigate = useNavigate();
   const { user, logout, isSignedIn } = useAuth();
-  console.log("user from nav: ", user);
-  console.log("isSignedIn from nav: ", isSignedIn);
+  // console.log("user from nav: ", user);
+  // console.log("isSignedIn from nav: ", isSignedIn);
   const handleCategoryClick = (category, section, item, close) => {
     navigate(`/${category.id}/${section.id}/${item.name.toLowerCase()}`);
     close();
@@ -329,7 +329,7 @@ export default function Navigation() {
               <a href="#" className="-m-2 flex items-center p-2">
                 <img
                   alt=""
-                  src="src/assets/avatar.png"
+                  src="assets/avatar.png"
                   className="block h-auto w-5 flex-shrink-0"
                 />
                 <span className="ml-3 block text-base font-medium text-gray-900">
@@ -371,7 +371,7 @@ export default function Navigation() {
                   <img
                     onClick={() => navigate("/")}
                     alt=""
-                    src="src/assets/logo.png"
+                    src="/assets/logo.png"
                     className="h-12 w-auto"
                   />
                 </a>
@@ -390,7 +390,7 @@ export default function Navigation() {
 
                       <PopoverPanel
                         transition
-                        className="absolute inset-x-0 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+                        className="absolute inset-x-0 z-50 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                       >
                         {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
                         <div
@@ -529,7 +529,7 @@ export default function Navigation() {
                   >
                     <img
                       alt=""
-                      src="src/assets/avatar.png"
+                      src="/assets/avatar.png"
                       className="block h-auto w-5 flex-shrink-0"
                     />
                     <span className="ml-3 block text-sm font-medium">

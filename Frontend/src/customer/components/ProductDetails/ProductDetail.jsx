@@ -22,7 +22,7 @@ import { Radio, RadioGroup } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-
+import { useAuth } from "../../../Context/AuthContext";
 const product = {
   name: "Basic Tee 6-Pack",
   price: "$192",
@@ -91,16 +91,140 @@ export default function ProductDetails() {
   // console.log(product.product);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+
   const navigate = useNavigate();
   const location = useLocation();
-
+  const {
+    login,
+    isSignedIn,
+    setIsSignedIn,
+    setUser,
+    user,
+    cart,
+    cartItems,
+    setCartItems,
+    productToAdd,
+    setProductToAdd,
+  } = useAuth();
   const item = location.state || location.state.item || {};
 
   const itemObj = new Object(item);
-  const itemString = JSON.stringify(itemObj);
+
   console.log("item: ", item);
-  console.log("product obj: ", itemObj);
-  console.log("product string: " + itemString);
+  // console.log("cart: ", cart);
+  const handleAddToBag = async () => {
+    const addProduct = async () => {
+      // const response1 = await fetch(
+      //   `${import.meta.env.VITE_API_BASE_URL}/api/products/${user._id}`,
+      //   {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       title: item.title,
+      //       description: item.description,
+      //       price: item.price,
+      //       discountedPrice: item.discountedPrice,
+      //       discountPercent: item.discountPersent,
+      //       imageUrl: item.imageUrl,
+      //       quantity: item.quantity,
+      //     }),
+      //   }
+      // );
+      // const data = await response1.json();
+
+      const fetchCartItems = async (str) => {
+        const response3 = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
+        );
+        const data = await response3.json();
+        console.log(`Cart fetched ${str}`, data);
+        localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+        setCartItems(data.cartItems);
+      };
+
+      // console.log("current item: ", item);
+      const checkAlreadyPresent = async () => {
+        if (!cartItems || cartItems.length === 0) {
+          console.log("No items in cart, creating new item");
+          await createCartItems();
+
+          await fetchCartItems("no item in cart");
+          return;
+        }
+        for (const iitem of cartItems) {
+          console.log("Checking item: ", iitem.productId);
+          if (iitem.productId == item.productId) {
+            console.log("Item already present in cart: ", iitem.productId);
+            const response = await fetch(
+              `${import.meta.env.VITE_API_BASE_URL}/api/cartitems/update`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  quantity: iitem.quantity + 1,
+                  userId: user._id,
+                  productId: iitem.productId,
+                }),
+              }
+            );
+            const data = await response.json();
+            console.log("after updating the quantity ", data);
+            await fetchCartItems("after updating the quantity");
+            navigate("/cart", { state: item });
+            console.log("happening after navigate");
+            return;
+          }
+        }
+
+        console.log("no item found same");
+        await createCartItems();
+        await fetchCartItems("when no item found");
+      };
+
+      // console.log("product added: ", data);
+      // setProductToAdd(data.product);
+      const createCartItems = async () => {
+        // console.log("Product to add: ", productToAdd);
+        const response2 = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/api/cartitems`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              // product: data.product._id,
+              cart: cart._id,
+              price: item.price,
+              discountedPrice: item.discountedPrice,
+              userId: user._id,
+              quantity: item.quantity,
+              title: item.title,
+              description: item.description,
+              discountPercent: item.discountPersent,
+              imageUrl: item.imageUrl,
+              color: item.color,
+              productId: item.productId,
+            }),
+          }
+        );
+        const data2 = await response2.json();
+        console.log("Response from createCartItems: ", data2.cartItem);
+      };
+      await fetchCartItems();
+      console.log("Cart items currently: ", cartItems);
+      await checkAlreadyPresent();
+      console.log("checkAlreadyPresent function complete");
+    };
+
+    await addProduct();
+
+    navigate("/cart", { state: item });
+  };
 
   return (
     <div className="bg-white">
@@ -311,7 +435,7 @@ export default function ProductDetails() {
               </div>
             </form>
             <button
-              onClick={() => navigate("/cart", { state: item })}
+              onClick={handleAddToBag}
               className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
             >
               Add to bag

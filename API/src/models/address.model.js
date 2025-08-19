@@ -9,7 +9,7 @@ const AddressSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    streetAddress: {
+    address: {
         type: String,
         required: true
     },
@@ -18,7 +18,7 @@ const AddressSchema = new mongoose.Schema({
         required: true
     },
     zipCode: {
-        type: Number,
+        type: String,
         required: true
     },
     user: {
