@@ -20,9 +20,10 @@ const createPaymentLink = async (orderId) => {
                 email: true
             },
             reminder_enable: true,
-            callback_url: `https://trendy-threads-sigma.vercel.app/payment/success?orderId=${order._id}`,
-
+            callback_url: `https://trendy-threads-sigma.vercel.app/payment/success/${order._id}`,
             callback_method: 'get'
+
+
         };
         const paymentLink = await razorpay.paymentLink.create(paymentLinkRequest);
         const paymentLink_Id = paymentLink.id;

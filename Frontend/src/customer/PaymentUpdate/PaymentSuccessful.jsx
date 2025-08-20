@@ -11,9 +11,15 @@ export default function PaymentSuccess() {
     const razorpay_order_id = query.get("razorpay_order_id");
     const orderId = query.get("orderId");
 
+    console.log("Payment details from successful:", {
+      razorpay_payment_id,
+      razorpay_order_id,
+      orderId,
+    });
+
     if (razorpay_payment_id && orderId) {
       // Send details to backend to update order status
-      fetch("https://your-backend.com/api/payment/updateinfo", {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payments/updateinfo`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

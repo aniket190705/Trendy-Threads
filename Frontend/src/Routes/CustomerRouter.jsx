@@ -36,7 +36,10 @@ const CustomerRouter = () => {
         ></Route>
         <Route path="/account/signup" element={<Signup />}></Route>
         <Route path="/account/signin" element={<Signin />}></Route>
-        <Route path="/payment/:id" element={<PaymentSuccessful />}></Route>
+        <Route
+          path="/payment/success/:id"
+          element={<PaymentSuccessful />}
+        ></Route>
       </Routes>
 
       <div>
