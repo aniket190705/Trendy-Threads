@@ -44,10 +44,10 @@ export default function PaymentSuccess() {
         Your order has been placed successfully.
       </p>
       <button
-        onClick={() => navigate("/orders")}
+        onClick={() => navigate("/")}
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
       >
-        View My Orders
+        Continue Shopping
       </button>
     </div>
   );
