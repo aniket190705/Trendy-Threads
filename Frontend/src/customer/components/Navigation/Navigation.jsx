@@ -562,7 +562,7 @@ export default function Navigation({ setNotification }) {
                           ); // 👈 this line
                           return;
                         }
-                        setNotification("");
+
                         navigate("/cart");
                       }}
                     >
