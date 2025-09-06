@@ -5,7 +5,7 @@ export default function Signup() {
   const [darkMode, setDarkMode] = useState(false);
 
   const navigate = useNavigate();
-  const { setCart } = useAuth();
+  const { setCart, signup } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,6 +31,7 @@ export default function Signup() {
         const cart = result.cart;
         localStorage.setItem("cart", JSON.stringify(cart)); // Save cart to localStorage
         setCart(cart);
+        signup(result.user); // Update user state in AuthContext
         console.log("cart created while sign up:", cart); // Set the cart in AuthContext
         localStorage.setItem("token", result.jwt); // ✅ Store JWT
         navigate("/"); // ✅ Redirect to Home Page

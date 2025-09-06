@@ -36,6 +36,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
+  const signup = (userData) => {
+    setUser(userData);
+    setIsSignedIn(true);
+    localStorage.setItem("user", JSON.stringify(userData));
+  };
+
   // Clear state + localStorage on logout
   const logout = () => {
     setUser(null);
@@ -61,6 +67,7 @@ export const AuthProvider = ({ children }) => {
         setProductToAdd,
         addresses,
         setAddresses,
+        signup,
       }}
     >
       {children}
