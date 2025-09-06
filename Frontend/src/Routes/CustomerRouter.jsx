@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navigation from "../customer/components/Navigation/Navigation";
 import HomePage from "../customer/pages/HomePage/HomePage";
@@ -13,13 +13,42 @@ import Order from "../customer/components/Order/Order";
 import Signin from "../customer/components/Login/Signin";
 import Signup from "../customer/components/Login/Signup";
 import PaymentSuccessful from "../customer/PaymentUpdate/PaymentSuccessful";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Context/AuthContext";
 const CustomerRouter = () => {
+  const [notification, setNotification] = React.useState("");
+  const { isSignedIn } = useAuth();
+  useEffect(() => {
+    if (isSignedIn) {
+      setNotification("");
+    }
+  }, [isSignedIn]);
+
   return (
     <div>
       <div>
-        <Navigation />
+        <Navigation setNotification={setNotification} />
       </div>
-
+      <div className="flex justify-center">
+        {notification && (
+          <div className="w-full sm:px-6 flex items-center lg:max-w-7xl lg:px-2 mb-4 mt-4">
+            <div className="rounded-md flex items-center w-full bg-yellow-100 p-4 justify-between">
+              <p className="text-sm w-full flex-1 font-medium text-yellow-800">
+                {notification}
+              </p>
+              <button
+                onClick={() => {
+                  setNotification("");
+                  if (!isSignedIn) navigate("/account/signin"); // redirect if user clicks dismiss
+                }}
+                className="ml-3 text-yellow-700 font-semibold hover:underline"
+              >
+                Sign In
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
         <Route path="/cart" element={<Cart />}></Route>

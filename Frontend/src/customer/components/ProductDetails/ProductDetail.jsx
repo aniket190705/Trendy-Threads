@@ -1,274 +1,105 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    theme: {
-      extend: {
-        gridTemplateRows: {
-          '[auto,auto,1fr]': 'auto auto 1fr',
-        },
-      },
-    },
-  }
-  ```
-*/
-
 import { useState } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
-import { Radio, RadioGroup } from "@headlessui/react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
-const product = {
-  name: "Basic Tee 6-Pack",
-  price: "$192",
-  href: "#",
-  breadcrumbs: [
-    { id: 1, name: "Men", href: "#" },
-    { id: 2, name: "Clothing", href: "#" },
-  ],
-  images: [
-    {
-      src: "https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-02-secondary-product-shot.jpg",
-      alt: "Two each of gray, white, and black shirts laying flat.",
-    },
-    {
-      src: "https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-02-tertiary-product-shot-01.jpg",
-      alt: "Model wearing plain black basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
-      alt: "Model wearing plain gray basic tee.",
-    },
-    {
-      src: "https://tailwindui.com/plus-assets/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
-      alt: "Model wearing plain white basic tee.",
-    },
-  ],
-  colors: [
-    { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-    { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-    { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-  ],
-  sizes: [
-    { name: "XXS", inStock: false },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: true },
-    { name: "2XL", inStock: true },
-    { name: "3XL", inStock: true },
-  ],
-  description:
-    'The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.',
-  highlights: [
-    "Hand cut and sewn locally",
-    "Dyed with our proprietary colors",
-    "Pre-washed & pre-shrunk",
-    "Ultra-soft 100% cotton",
-  ],
-  details:
-    'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.',
-};
-const reviews = { href: "#", average: 4, totalCount: 117 };
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export function itemData() {
-  const location = useLocation();
-  return (item = location.state || {});
-}
 
 export default function ProductDetails() {
-  // const product = useContext(productContext);
-  // console.log(product.product);
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const { isSignedIn } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(""); // 🔔 State for messages
 
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    login,
-    isSignedIn,
-    setIsSignedIn,
-    setUser,
-    user,
-    cart,
-    cartItems,
-    setCartItems,
-    productToAdd,
-    setProductToAdd,
-  } = useAuth();
+  const { user, cart, cartItems, setCartItems } = useAuth();
   const item = location.state || location.state.item || {};
 
-  const itemObj = new Object(item);
+  const fetchCartItems = async (str) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
+    );
+    const data = await response.json();
+    localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+    setCartItems(data.cartItems);
+  };
 
-  console.log("item: ", item);
-  // console.log("cart: ", cart);
+  const createCartItem = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/cartitems`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          cart: cart._id,
+          price: item.price,
+          discountedPrice: item.discountedPrice,
+          userId: user._id,
+          quantity: item.quantity || 1,
+          title: item.title,
+          description: item.description,
+          discountPercent: item.discountPersent,
+          imageUrl: item.imageUrl,
+          color: item.color,
+          productId: item.productId,
+        }),
+      }
+    );
+    return await response.json();
+  };
+
+  const updateCartItem = async (existingItem) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/cartitems/update`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quantity: existingItem.quantity + 1,
+          userId: user._id,
+          productId: existingItem.productId,
+        }),
+      }
+    );
+    return await response.json();
+  };
+
   const handleAddToBag = async () => {
-    const addProduct = async () => {
-      // const response1 = await fetch(
-      //   `${import.meta.env.VITE_API_BASE_URL}/api/products/${user._id}`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify({
-      //       title: item.title,
-      //       description: item.description,
-      //       price: item.price,
-      //       discountedPrice: item.discountedPrice,
-      //       discountPercent: item.discountPersent,
-      //       imageUrl: item.imageUrl,
-      //       quantity: item.quantity,
-      //     }),
-      //   }
-      // );
-      // const data = await response1.json();
+    if (!isSignedIn) {
+      setNotification("Please sign in to add items to your cart.");
+      return;
+    }
 
-      const fetchCartItems = async (str) => {
-        const response3 = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
-        );
-        const data = await response3.json();
-        console.log(`Cart fetched ${str}`, data);
-        localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
-        setCartItems(data.cartItems);
-      };
+    if (loading) return;
+    setLoading(true);
 
-      // console.log("current item: ", item);
-      const checkAlreadyPresent = async () => {
-        if (!cartItems || cartItems.length === 0) {
-          console.log("No items in cart, creating new item");
-          await createCartItems();
+    try {
+      await fetchCartItems("before adding");
 
-          await fetchCartItems("no item in cart");
-          return;
-        }
-        for (const iitem of cartItems) {
-          console.log("Checking item: ", iitem.productId);
-          if (iitem.productId == item.productId) {
-            console.log("Item already present in cart: ", iitem.productId);
-            const response = await fetch(
-              `${import.meta.env.VITE_API_BASE_URL}/api/cartitems/update`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  quantity: iitem.quantity + 1,
-                  userId: user._id,
-                  productId: iitem.productId,
-                }),
-              }
-            );
-            const data = await response.json();
-            console.log("after updating the quantity ", data);
-            await fetchCartItems("after updating the quantity");
-            navigate("/cart", { state: item });
-            console.log("happening after navigate");
-            return;
-          }
-        }
+      const existingItem = cartItems.find(
+        (ci) => ci.productId === item.productId
+      );
 
-        console.log("no item found same");
-        await createCartItems();
-        await fetchCartItems("when no item found");
-      };
+      if (existingItem) {
+        await updateCartItem(existingItem);
+      } else {
+        await createCartItem();
+      }
 
-      // console.log("product added: ", data);
-      // setProductToAdd(data.product);
-      const createCartItems = async () => {
-        // console.log("Product to add: ", productToAdd);
-        const response2 = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/cartitems`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              // product: data.product._id,
-              cart: cart._id,
-              price: item.price,
-              discountedPrice: item.discountedPrice,
-              userId: user._id,
-              quantity: item.quantity,
-              title: item.title,
-              description: item.description,
-              discountPercent: item.discountPersent,
-              imageUrl: item.imageUrl,
-              color: item.color,
-              productId: item.productId,
-            }),
-          }
-        );
-        const data2 = await response2.json();
-        console.log("Response from createCartItems: ", data2.cartItem);
-      };
-      await fetchCartItems();
-      console.log("Cart items currently: ", cartItems);
-      await checkAlreadyPresent();
-      console.log("checkAlreadyPresent function complete");
-    };
-
-    await addProduct();
-
-    navigate("/cart", { state: item });
+      await fetchCartItems("after add/update");
+      navigate("/cart", { state: item });
+    } catch (err) {
+      setNotification("Something went wrong. Try again!");
+      console.error("Error adding to bag:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="bg-white">
       <div className="pt-6">
-        <nav aria-label="Breadcrumb">
-          <ol
-            role="list"
-            className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
-          >
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a
-                    href={breadcrumb.href}
-                    className="mr-2 text-sm font-medium text-gray-900"
-                  >
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    fill="currentColor"
-                    width={16}
-                    height={20}
-                    viewBox="0 0 16 20"
-                    aria-hidden="true"
-                    className="h-5 w-4 text-gray-300"
-                  >
-                    <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.name}
-              </a>
-            </li>
-          </ol>
-        </nav>
+        {/* 🔔 Notification Banner */}
 
-        {/* Image gallery */}
+        {/* Product Gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <img
             alt={item.imageUrl}
@@ -294,7 +125,7 @@ export default function ProductDetails() {
           />
         </div>
 
-        {/* Product info */}
+        {/* Product Info */}
         <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
@@ -302,173 +133,57 @@ export default function ProductDetails() {
             </h1>
           </div>
 
-          {/* Options */}
+          {/* Price + Add to Bag */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
-            <h2 className="sr-only">Product information</h2>
             <p className="text-3xl tracking-tight text-gray-900">
               ₹{item.discountedPrice}
             </p>
 
-            {/* Reviews */}
-            <div className="mt-6">
-              <h3 className="sr-only">Reviews</h3>
-              <div className="flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <StarIcon
-                      key={rating}
-                      aria-hidden="true"
-                      className={classNames(
-                        reviews.average > rating
-                          ? "text-gray-900"
-                          : "text-gray-200",
-                        "size-5 shrink-0"
-                      )}
-                    />
-                  ))}
-                </div>
-                <p className="sr-only">{reviews.average} out of 5 stars</p>
-                <a
-                  href={reviews.href}
-                  className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  {reviews.totalCount} reviews
-                </a>
-              </div>
-            </div>
-
-            <form className="mt-10">
-              {/* Colors */}
-              <div>
-                <h3 className="text-sm font-medium text-gray-900">Color</h3>
-
-                <fieldset aria-label="Choose a color" className="mt-4">
-                  <RadioGroup
-                    value={selectedColor}
-                    onChange={setSelectedColor}
-                    className="flex items-center gap-x-3"
-                  >
-                    {product.colors.map((color) => (
-                      <Radio
-                        key={color.name}
-                        value={color}
-                        aria-label={color.name}
-                        className={classNames(
-                          color.selectedClass,
-                          "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-hidden data-checked:ring-2 data-focus:data-checked:ring-3 data-focus:data-checked:ring-offset-1"
-                        )}
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={classNames(
-                            color.class,
-                            "size-8 rounded-full border border-black/10"
-                          )}
-                        />
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                </fieldset>
-              </div>
-
-              {/* Sizes */}
-              <div className="mt-10">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Size guide
-                  </a>
-                </div>
-
-                <fieldset aria-label="Choose a size" className="mt-4">
-                  <RadioGroup
-                    value={selectedSize}
-                    onChange={setSelectedSize}
-                    className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4"
-                  >
-                    {product.sizes.map((size) => (
-                      <Radio
-                        key={size.name}
-                        value={size}
-                        disabled={!size.inStock}
-                        className={classNames(
-                          size.inStock
-                            ? "cursor-pointer bg-white text-gray-900 shadow-xs"
-                            : "cursor-not-allowed bg-gray-50 text-gray-200",
-                          "group relative flex items-center justify-center rounded-md border px-4 py-3 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-hidden data-focus:ring-2 data-focus:ring-indigo-500 sm:flex-1 sm:py-6"
-                        )}
-                      >
-                        <span>{size.name}</span>
-                        {size.inStock ? (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-transparent group-data-checked:border-indigo-500 group-data-focus:border"
-                          />
-                        ) : (
-                          <span
-                            aria-hidden="true"
-                            className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                          >
-                            <svg
-                              stroke="currentColor"
-                              viewBox="0 0 100 100"
-                              preserveAspectRatio="none"
-                              className="absolute inset-0 size-full stroke-2 text-gray-200"
-                            >
-                              <line
-                                x1={0}
-                                x2={100}
-                                y1={100}
-                                y2={0}
-                                vectorEffect="non-scaling-stroke"
-                              />
-                            </svg>
-                          </span>
-                        )}
-                      </Radio>
-                    ))}
-                  </RadioGroup>
-                </fieldset>
-              </div>
-            </form>
             <button
               onClick={handleAddToBag}
-              className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+              disabled={loading}
+              className={`mt-10 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium text-white focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden 
+                ${
+                  loading
+                    ? "bg-indigo-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
             >
-              Add to bag
+              {loading ? "Adding..." : "Add to bag"}
             </button>
+            {notification && (
+              <div className="w-full sm:px-6 lg:max-w-7xl lg:px-2 mb-4 mt-4">
+                <div className="rounded-md w-full bg-yellow-100 p-4 flex justify-between items-center">
+                  <p className="text-sm w-full flex-1 font-medium text-yellow-800">
+                    {notification}
+                  </p>
+                  <button
+                    onClick={() => {
+                      setNotification("");
+                      if (!isSignedIn) navigate("/account/signin"); // redirect if user clicks dismiss
+                    }}
+                    className="ml-3 text-yellow-700 font-semibold hover:underline"
+                  >
+                    Sign In
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Description */}
           <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
-            {/* Description and details */}
             <div>
               <h3 className="sr-only text-gray-900">Description</h3>
-
               <div className="space-y-6">
                 <p className="text-base text-gray-900">{item.title}</p>
               </div>
             </div>
-
             <div className="mt-10">
               <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-
-              <div className="mt-4">
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  {product.highlights.map((highlight) => (
-                    <li key={highlight} className="text-gray-400">
-                      <span className="text-gray-600">{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
-
             <div className="mt-10">
               <h2 className="text-sm font-medium text-gray-900">Details</h2>
-
               <div className="mt-4 space-y-6">
                 <p className="text-sm text-gray-600">{item.description}</p>
               </div>

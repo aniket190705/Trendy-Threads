@@ -169,7 +169,7 @@ const navigation = {
   ],
 };
 
-export default function Navigation() {
+export default function Navigation({ setNotification }) {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -184,6 +184,7 @@ export default function Navigation() {
     logout(); // clear context + localStorage
     navigate("/"); // redirect to homepage or login
   };
+
   return (
     <div className="bg-white z-10">
       {/* Mobile menu */}
@@ -378,7 +379,7 @@ export default function Navigation() {
               </div>
 
               {/* Flyout menus */}
-              <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
+              {/* <PopoverGroup className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.categories.map((category) => (
                     <Popover key={category.name} className="flex">
@@ -392,7 +393,7 @@ export default function Navigation() {
                         transition
                         className="absolute inset-x-0 z-50 top-full text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
                       >
-                        {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
+                      
                         <div
                           aria-hidden="true"
                           className="absolute inset-0 top-1/2 bg-white shadow"
@@ -482,7 +483,7 @@ export default function Navigation() {
                     </a>
                   ))}
                 </div>
-              </PopoverGroup>
+              </PopoverGroup> */}
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
@@ -553,7 +554,18 @@ export default function Navigation() {
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
                   <a href="#" className="group -m-2 flex items-center p-2">
-                    <button onClick={() => navigate("/account/order")}>
+                    <button
+                      onClick={() => {
+                        if (!isSignedIn) {
+                          setNotification(
+                            "Please sign in to see your cart items"
+                          ); // 👈 this line
+                          return;
+                        }
+                        setNotification("");
+                        navigate("/cart");
+                      }}
+                    >
                       <ShoppingBagIcon className="h-6 w-6 text-gray-400 cursor-pointer" />
                     </button>
 

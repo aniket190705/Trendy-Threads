@@ -43,11 +43,11 @@ const cartItemsSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+
     },
     discountPercent: {
         type: Number,
-        required: true
+
     },
     imageUrl: {
         type: String,
@@ -55,7 +55,7 @@ const cartItemsSchema = new mongoose.Schema({
     },
     color: {
         type: String,
-        required: true
+
     },
 });
 

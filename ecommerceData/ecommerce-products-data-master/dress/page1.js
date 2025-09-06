@@ -1,5 +1,6 @@
 export const dressPage1 = [
   {
+    "productId": 40,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l0wrafk0/dress/l/2/o/3xl-m2s13003-peach-madame-original-imagchhhwbypcann.jpeg?q=70",
     "brand": "MADAME",
@@ -22,7 +23,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -30,6 +31,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 41,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/kurta/1/h/g/m-pw333-purshottam-wala-original-imag8zf6ybkmhehy-bb.jpeg?q=70",
     "brand": "Daevish",
@@ -52,7 +54,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -60,6 +62,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 42,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/z/s/i/s-a1-zwerlon-original-imagn9uycxbhshur.jpeg?q=70",
     "brand": "ZWERLON",
@@ -82,7 +85,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -90,6 +93,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 43,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/q/7/v/s-pwd322-purshottam-wala-original-imagm7ypaavduvnm.jpeg?q=70",
     "brand": "Purshottam Wala",
@@ -112,15 +116,16 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
     "description":
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
-  
+
   {
+    "productId": 44,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/e/a/p/s-pwd322-purshottam-wala-original-imagm6ywr7vz95sz.jpeg?q=70",
     "brand": "Purshottam Wala",
@@ -143,7 +148,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -151,6 +156,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 45,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kdlzte80/ethnic-set/p/f/q/l-3209-mint-02-neysa-original-imafuh85unfjczkd.jpeg?q=70",
     "brand": "NEYSA",
@@ -173,7 +179,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -181,6 +187,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 46,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l0igvww0/dress/g/p/u/xl-wd-1001-leriya-fashion-original-imagc9zbhfhsy33w.jpeg?q=70",
     "brand": "Leriya Fashion",
@@ -203,7 +210,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -211,6 +218,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 47,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l2hwwi80/dress/6/q/q/l-310tk6042-selvia-original-imagdtyyqfy7ahwf.jpeg?q=70",
     "brand": "Selvia",
@@ -233,7 +241,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -241,6 +249,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 48,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/a/c/m/l-3261-buynewtrend-original-imagnrpdhdeke5be.jpeg?q=70",
     "brand": "BuyNewTrend",
@@ -263,7 +272,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -271,6 +280,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 49,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kuyf8nk0/dress/x/4/c/s-21auw15994-116106-w-original-imag7ymmr5gggzzg.jpeg?q=70",
     "brand": "W",
@@ -293,7 +303,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -301,6 +311,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 50,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/9/f/g/xl-271-shivay-style-original-imafnf5ne9wqyw6n-bb.jpeg?q=70",
     "brand": "Sheetal Associates",
@@ -323,7 +334,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -331,6 +342,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 51,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/kurta/b/5/w/xl-322k772-saara-original-imafz3xfdnekz6by-bb.jpeg?q=70",
     "brand": "Selvia",
@@ -353,7 +365,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -361,6 +373,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 52,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/4/t/a/xl-164tk2824-selvia-original-imagfuhwektxvjkk-bb.jpeg?q=70",
     "brand": "Selvia",
@@ -383,7 +396,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -391,6 +404,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 53,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/r/g/b/xxl-pw367-purshottam-wala-original-imaggczp39gmfj7g.jpeg?q=70",
     "brand": "Purshottam Wala",
@@ -413,7 +427,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -421,6 +435,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 54,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/q/j/q/xl-bebo-black-pinpoint-seller-original-imagkngh5pp8dd2v.jpeg?q=70",
     "brand": "OK QUEST",
@@ -443,7 +458,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -451,6 +466,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 55,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/1/0/x/xxl-20auw14014-311749-w-original-imagjzyvh8zctpcx.jpeg?q=70",
     "brand": "W",
@@ -473,7 +489,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -481,6 +497,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 56,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/p/0/i/xl-wd1001-1012-leriya-fashion-original-imagj79jnnujedg5.jpeg?q=70",
     "brand": "Leriya Fashion",
@@ -503,7 +520,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -511,6 +528,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 57,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kshtxu80/dress/i/d/z/m-dv320-daevish-original-imag6fxn7fnrggra.jpeg?q=70",
     "brand": "Purshottam Wala",
@@ -533,7 +551,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -541,6 +559,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 58,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/i/t/4/l-3252-buynewtrend-original-imagnrpd2zqyh8dr.jpeg?q=70",
     "brand": "BuyNewTrend",
@@ -563,7 +582,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -571,6 +590,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 59,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kfcv6vk0/dress/a/8/s/s-11271756-dressberry-original-imafvtgrbhmvssh9.jpeg?q=70",
     "brand": "Dressberry",
@@ -593,7 +613,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -601,6 +621,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 60,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/t/8/i/m-a1-zwerlon-original-imagn5bbthzeqpqe.jpeg?q=70",
     "brand": "ZWERLON",
@@ -623,7 +644,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -631,6 +652,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 61,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/krme93k0/dress/p/i/d/3xl-lucy-021022023-purvaja-original-imag5dfgzhsghtcz.jpeg?q=70",
     "brand": "PURVAJA",
@@ -653,7 +675,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -661,6 +683,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 62,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kbs9k7k0/dress/9/f/j/xxl-drdrmsk-13-rudraaksha-original-imaftfczugs8mfnr.jpeg?q=70",
     "brand": "Rudraaksha",
@@ -683,7 +706,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -691,6 +714,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 63,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/ktbu6q80/dress/e/7/h/xxl-78-j-turritopsis-original-imag6p4ehut2gu9s.jpeg?q=70",
     "brand": "J TURRITOPSIS",
@@ -713,7 +737,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -721,6 +745,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 64,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/i/s/d/xs-22auw18583-119023-w-original-imaghnga8wscg5sk.jpeg?q=70",
     "brand": "W",
@@ -743,15 +768,16 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
     "description":
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
-  
+
   {
+    "productId": 65,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/7/m/2/xl-aa-00153-maroon-aayu-original-imagz844bgkeehx5.jpeg?q=70",
     "brand": "AAYU",
@@ -774,7 +800,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -782,6 +808,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 66,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kxtaxzk0/dress/c/d/m/l-keri-vaani-creation-original-imaga6ngag7wtcgh.jpeg?q=70",
     "brand": "Vaani Creation",
@@ -804,7 +831,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -812,6 +839,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 67,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l13whow0/dress/m/4/o/xxl-21aud10360-501943-aurelia-original-imagcqvjnssagkqt.jpeg?q=70",
     "brand": "Aurelia",
@@ -834,7 +862,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -842,6 +870,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 68,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l3xcr680/dress/p/l/3/l-22few17901-118335-w-original-imagexn4zahxcu3a.jpeg?q=70",
     "brand": "W",
@@ -864,7 +893,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -872,6 +901,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 69,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/u/u/a/xs-dk333-dk-fab-original-imag89k7mw5hc3zd.jpeg?q=70",
     "brand": "Daevish",
@@ -894,7 +924,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -902,6 +932,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 70,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/k6xxua80/dress/z/z/3/l-286-shivay-style-original-imafp9yphyyf9ypv.jpeg?q=70",
     "brand": "Sheetal Associates",
@@ -924,7 +955,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -932,6 +963,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 71,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/k/z/r/l-mcaw19d08-57-217-miss-chase-original-imafz2ftwd7j8ghy-bb.jpeg?q=70",
     "brand": "Miss Chase",
@@ -954,7 +986,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -962,6 +994,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 72,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/d/h/f/m-155tk2854a-selvia-original-imagha9zz8kshheh.jpeg?q=70",
     "brand": "Selvia",
@@ -984,7 +1017,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -992,6 +1025,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 73,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kngd0nk0/dress/c/l/4/3xl-1036mtbmrnsolidd-momtobe-original-imag24jygj4ujykz.jpeg?q=70",
     "brand": "MomToBe",
@@ -1014,7 +1048,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -1022,6 +1056,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 74,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/kxf0jgw0/dress/v/h/a/s-21auw16333-116923-w-original-imag9vjtc4zj5enb.jpeg?q=70",
     "brand": "W",
@@ -1044,7 +1079,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -1052,6 +1087,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 75,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/l3es13k0/dress/s/q/w/xxl-wd1001-leriya-fashion-original-imagej6kq6ph89xh.jpeg?q=70",
     "brand": "Leriya Fashion",
@@ -1074,7 +1110,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",
@@ -1082,6 +1118,7 @@ export const dressPage1 = [
       "Make a statement with this stylish purple A-line dress from ZWERLON. Made with high-quality fabric, this dress is perfect for any occasion."
   },
   {
+    "productId": 76,
     "imageUrl":
       "https://rukminim1.flixcart.com/image/612/612/xif0q/dress/i/5/w/m-dv333-daevish-original-imaga8zhya5kgvgw-bb.jpeg?q=70",
     "brand": "Daevish",
@@ -1104,7 +1141,7 @@ export const dressPage1 = [
         "quantity": 50
       }
     ],
-    "quantity": 100,
+    "quantity": 1,
     "topLavelCategory": "Women",
     "secondLavelCategory": "Clothing",
     "thirdLavelCategory": "Dress",

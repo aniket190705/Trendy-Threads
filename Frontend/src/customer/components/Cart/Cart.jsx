@@ -13,6 +13,19 @@ const Cart = () => {
   const [totalDiscountedPrice, setTotalDiscountedPrice] = useState(0);
   const [discount, setDiscount] = useState(0);
 
+  useEffect(() => {
+    fetchCartItems("to update cart items on page reload");
+  }, []);
+
+  const fetchCartItems = async (str) => {
+    const response3 = await fetch(
+      `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
+    );
+    const data = await response3.json();
+    console.log(`Cart fetched ${str}`, data);
+    setCartItems(data.cartItems);
+    localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+  };
   const deleteItem = async (itemId) => {
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/api/cartitems/delete/${itemId}`,
@@ -25,17 +38,8 @@ const Cart = () => {
     );
 
     if (response.ok) {
-      const fetchCartItems = async (str) => {
-        const response3 = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
-        );
-        const data = await response3.json();
-        console.log(`Cart fetched ${str}`, data);
-        setCartItems(data.cartItems);
-        localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
-      };
-
       fetchCartItems("from completely deleting the item");
+      console.log("Item deleted successfully");
     } else {
       console.error("Error deleting item:", response.statusText);
     }
@@ -137,12 +141,15 @@ const Cart = () => {
     // update frontend state immediately
     if (updatedItems.length === 0) {
       // Option A: Clear cart completely
+      console.log("deletiing cartitem with id: ", itemId);
       deleteItem(itemId);
+
       localStorage.removeItem("cartItems");
       setCartItems([]);
       // updateCart(user._id, [], 0, 0, 0);
     } else {
       setCartItems(updatedItems);
+      deleteItem(itemId);
       localStorage.setItem("cartItems", JSON.stringify(updatedItems));
       updateCart(
         user._id,
