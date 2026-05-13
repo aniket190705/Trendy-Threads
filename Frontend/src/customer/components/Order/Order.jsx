@@ -3,11 +3,25 @@ import React, { useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import { useAuth } from "../../../Context/AuthContext";
 
+const readApiResponse = async (response) => {
+  const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
+
+  if (contentType.includes("application/json")) {
+    return text ? JSON.parse(text) : {};
+  }
+
+  return {
+    error: text || "The server returned an unexpected response.",
+  };
+};
+
 const Order = () => {
   const { user, isSignedIn } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cancellingOrderId, setCancellingOrderId] = useState(null);
+  const [fetchError, setFetchError] = useState("");
 
   const fetchOrders = async () => {
     if (!user?._id) {
@@ -16,15 +30,20 @@ const Order = () => {
     }
 
     try {
+      setFetchError("");
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/orders/user/${user._id}`
       );
-      const data = await response.json();
+      const data = await readApiResponse(response);
       if (response.ok) {
         setOrders(data.orders || []);
+      } else {
+        setOrders([]);
+        setFetchError(data.error || "Could not load your order history.");
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
+      setFetchError("Could not load your order history.");
     } finally {
       setLoading(false);
     }
@@ -79,7 +98,8 @@ const Order = () => {
 
       {isSignedIn && !loading && orders.length === 0 && (
         <div className="rounded-xl border bg-white p-6 text-gray-600 shadow-sm">
-          No orders yet. Your completed checkouts will appear here.
+          {fetchError ||
+            "No orders yet. Your completed checkouts will appear here."}
         </div>
       )}
 

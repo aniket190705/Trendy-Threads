@@ -7,23 +7,42 @@ import Box from "@mui/material/Box";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { useParams } from "react-router-dom";
 
+const readApiResponse = async (response) => {
+  const contentType = response.headers.get("content-type") || "";
+  const text = await response.text();
+
+  if (contentType.includes("application/json")) {
+    return text ? JSON.parse(text) : {};
+  }
+
+  return {
+    error: text || "The server returned an unexpected response.",
+  };
+};
+
 const OrderDetails = () => {
   const { orderId } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState("");
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
+        setFetchError("");
         const response = await fetch(
           `${import.meta.env.VITE_API_BASE_URL}/api/orders/${orderId}`
         );
-        const data = await response.json();
+        const data = await readApiResponse(response);
         if (response.ok) {
           setOrder(data.order);
+        } else {
+          setOrder(null);
+          setFetchError(data.error || "Could not load order details.");
         }
       } catch (error) {
         console.error("Error fetching order details:", error);
+        setFetchError("Could not load order details.");
       } finally {
         setLoading(false);
       }
@@ -37,7 +56,11 @@ const OrderDetails = () => {
   }
 
   if (!order) {
-    return <div className="px-6 py-10 text-gray-600">Order not found.</div>;
+    return (
+      <div className="px-6 py-10 text-gray-600">
+        {fetchError || "Order not found."}
+      </div>
+    );
   }
 
   return (

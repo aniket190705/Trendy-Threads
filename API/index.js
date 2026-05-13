@@ -50,4 +50,10 @@ app.use("/api/address", addressRouter);
 const orderRouter = require("./src/routes/order.route");
 app.use("/api/orders", orderRouter);
 
+app.use("/api/*", (req, res) => {
+    return res.status(404).json({
+        error: `API route not found: ${req.method} ${req.originalUrl}`
+    });
+});
+
 module.exports = app;
