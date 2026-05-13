@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
+  const { setCart, setCartItems } = useAuth();
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -31,11 +33,24 @@ export default function PaymentSuccess() {
         .then((res) => res.json())
         .then((data) => {
           console.log("Payment verified:", data);
+          const emptyCart = {
+            cartItems: [],
+            totalPrice: 0,
+            totalDiscountedPrice: 0,
+            discount: 0,
+            totalItem: 0,
+          };
+
+          setCart(emptyCart);
+          setCartItems([]);
+          localStorage.setItem("cart", JSON.stringify(emptyCart));
+          localStorage.setItem("cartItems", JSON.stringify([]));
+
           navigate("/account/order", { replace: true });
         })
         .catch((err) => console.error("Payment verify failed", err));
     }
-  }, [id, location, navigate]);
+  }, [id, location, navigate, setCart, setCartItems]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">

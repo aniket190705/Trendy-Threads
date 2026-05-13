@@ -1,5 +1,6 @@
 const razorpay = require('../config/razorpayclient.js');
 const orderService = require('./order.service.js');
+const cartService = require('./cart.service.js');
 const createPaymentLink = async (orderId, origin) => {
     try {
         const order = await orderService.findOrderById(orderId)
@@ -52,6 +53,9 @@ const updatePaymentInformation = async (reqData) => {
             order.paymentDetails.paymentStatus = "COMPLETED";
             order.orderStatus = "PLACED";
             await order.save();
+
+            // Clear the saved cart only after the payment is successfully captured.
+            await cartService.clearCart(order.user);
         }
         const resData = { message: "Your order is placed", success: true }
         return resData;

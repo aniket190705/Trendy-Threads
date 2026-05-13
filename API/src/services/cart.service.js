@@ -1,4 +1,5 @@
 const Cart = require("../models/cart.model");
+const CartItems = require("../models/cartItems.model");
 async function createCart(user) {
     try {
         const cart = new Cart({
@@ -50,9 +51,35 @@ async function updateCart(userId, cartItems, totalPrice, totalDiscountedPrice) {
     }
 }
 
+async function clearCart(userId) {
+    try {
+        const cart = await Cart.findOne({ user: userId });
+
+        if (!cart) {
+            return null;
+        }
+
+        await CartItems.deleteMany({ cart: cart._id });
+
+        cart.cartItems = [];
+        cart.totalPrice = 0;
+        cart.totalDiscountedPrice = 0;
+        cart.discount = 0;
+        cart.totalItem = 0;
+
+        await cart.save();
+
+        return cart;
+    } catch (err) {
+        console.log("error in clear cart: ", err);
+        throw new Error(err.message);
+    }
+}
+
 
 module.exports = {
     createCart,
     getCart,
-    updateCart
+    updateCart,
+    clearCart
 };
