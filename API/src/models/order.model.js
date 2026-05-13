@@ -1,4 +1,32 @@
 const mongoose = require("mongoose");
+
+const orderItemSnapshotSchema = new mongoose.Schema({
+    productId: {
+        type: Number,
+    },
+    title: {
+        type: String,
+    },
+    imageUrl: {
+        type: String,
+    },
+    price: {
+        type: Number,
+        default: 0,
+    },
+    discountedPrice: {
+        type: Number,
+        default: 0,
+    },
+    quantity: {
+        type: Number,
+        default: 1,
+    },
+    color: {
+        type: String,
+    },
+}, { _id: false });
+
 const orderSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,11 +49,13 @@ const orderSchema = new mongoose.Schema({
 
     },
     shippingAddress: {
-        type: String,
+        type: Object,
         required: true
-    }
-
-    ,
+    },
+    items: {
+        type: [orderItemSnapshotSchema],
+        default: []
+    },
     paymentDetails: {
         paymentMethod: {
             type: String,

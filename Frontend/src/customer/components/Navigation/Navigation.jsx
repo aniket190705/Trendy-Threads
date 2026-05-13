@@ -31,6 +31,7 @@ import {
 } from "@headlessui/react";
 import {
   Bars3Icon,
+  ClipboardDocumentListIcon,
   MagnifyingGlassIcon,
   ShoppingBagIcon,
   XMarkIcon,
@@ -524,9 +525,31 @@ export default function Navigation({ setNotification }) {
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
-                  <a
-                    href="#"
+                  <button
+                    type="button"
+                    className="mr-4 flex items-center text-gray-700 hover:text-gray-800"
+                    onClick={() => {
+                      if (isSignedIn) {
+                        navigate("/account/order");
+                      } else {
+                        setNotification("Please sign in to view your orders");
+                      }
+                    }}
+                    aria-label="View order history"
+                  >
+                    <ClipboardDocumentListIcon className="h-6 w-6 text-gray-400" />
+                  </button>
+
+                  <button
+                    type="button"
                     className="flex items-center text-gray-700 hover:text-gray-800"
+                    onClick={() => {
+                      if (isSignedIn) {
+                        navigate("/account/order");
+                      } else {
+                        setNotification("Please sign in to view your orders");
+                      }
+                    }}
                   >
                     <img
                       alt=""
@@ -537,7 +560,7 @@ export default function Navigation({ setNotification }) {
                       {isSignedIn ? user.firstName : "user"}
                     </span>
                     <span className="sr-only">, change currency</span>
-                  </a>
+                  </button>
                 </div>
 
                 {/* Search */}

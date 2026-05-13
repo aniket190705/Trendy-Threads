@@ -1,8 +1,9 @@
-// const express = require('express');
-// const router = express.Router();
-// const authController = require('../controller/auth.controller');
+const express = require("express");
+const router = express.Router();
+const orderController = require("../controller/order.controller");
 
-// router.post('/signup', authController.register);
-// router.post('/signin', authController.login);
+router.get("/user/:userId", orderController.getOrdersByUser);
+router.get("/:orderId", orderController.getOrderById);
+router.put("/:orderId/cancel", orderController.cancelOrder);
 
-// module.exports = router;
+module.exports = router;

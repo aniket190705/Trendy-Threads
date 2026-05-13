@@ -1,12 +1,13 @@
 const razorpay = require('../config/razorpayclient.js');
 const orderService = require('./order.service.js');
-const createPaymentLink = async (orderId) => {
+const createPaymentLink = async (orderId, origin) => {
     try {
         const order = await orderService.findOrderById(orderId)
         console.log("\n\nfound order from backend: ", order)
         if (!order) {
             throw new Error("Order not found");
         }
+        const frontendUrl = origin || process.env.FRONTEND_URL || "http://localhost:5173";
         const paymentLinkRequest = {
             amount: order.totalDiscountedPrice * 100,
             currency: "INR",
@@ -20,7 +21,7 @@ const createPaymentLink = async (orderId) => {
                 email: true
             },
             reminder_enable: true,
-            callback_url: `https://trendy-threads-sigma.vercel.app/payment/success/${order._id}`,
+            callback_url: `${frontendUrl}/payment/success/${order._id}?orderId=${order._id}`,
             callback_method: 'get'
 
 
@@ -48,7 +49,7 @@ const updatePaymentInformation = async (reqData) => {
         const payment = await razorpay.payments.fetch(paymentId);
         if (payment.status == "captured") {
             order.paymentDetails.paymentId = paymentId;
-            order.paymentDetails.status = "COMPLETED"
+            order.paymentDetails.paymentStatus = "COMPLETED";
             order.orderStatus = "PLACED";
             await order.save();
         }

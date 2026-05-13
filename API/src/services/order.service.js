@@ -3,12 +3,12 @@ async function createOrder(data) {
     console.log("\n\norder data: ", data);
     try {
         const order = new Order({
-
             user: data.userId,  // Assuming userId is passed in data
             totalPrice: data.totalPrice, // Assuming totalPrice is passed in data
             totalItem: data.totalItem, // Assuming totalItem is passed in data
             shippingAddress: data.shippingAddress,
             totalDiscountedPrice: data.discountedPrice,
+            items: data.items || [],
         });
         await order.save();
         console.log("created order: ", order);
@@ -33,8 +33,32 @@ async function findOrderById(orderId) {
     }
 }
 
+async function getOrdersByUser(userId) {
+    try {
+        const orders = await Order.find({ user: userId }).sort({ createdAt: -1 });
+        return orders;
+    } catch (error) {
+        throw new Error("Error fetching user orders");
+    }
+}
+
+async function cancelOrder(orderId) {
+    try {
+        const order = await Order.findByIdAndUpdate(
+            orderId,
+            { orderStatus: "cancelled" },
+            { new: true }
+        );
+        return order;
+    } catch (error) {
+        throw new Error("Error cancelling order");
+    }
+}
+
 
 module.exports = {
     createOrder,
-    findOrderById
+    findOrderById,
+    getOrdersByUser,
+    cancelOrder
 };

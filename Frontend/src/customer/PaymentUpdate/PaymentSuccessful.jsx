@@ -1,15 +1,16 @@
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function PaymentSuccess() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const razorpay_payment_id = query.get("razorpay_payment_id");
     const razorpay_order_id = query.get("razorpay_order_id");
-    const orderId = query.get("orderId");
+    const orderId = query.get("orderId") || id;
 
     console.log("Payment details from successful:", {
       razorpay_payment_id,
@@ -30,10 +31,11 @@ export default function PaymentSuccess() {
         .then((res) => res.json())
         .then((data) => {
           console.log("Payment verified:", data);
+          navigate("/account/order", { replace: true });
         })
         .catch((err) => console.error("Payment verify failed", err));
     }
-  }, [location]);
+  }, [id, location, navigate]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -44,10 +46,10 @@ export default function PaymentSuccess() {
         Your order has been placed successfully.
       </p>
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/account/order")}
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
       >
-        Continue Shopping
+        View Order History
       </button>
     </div>
   );

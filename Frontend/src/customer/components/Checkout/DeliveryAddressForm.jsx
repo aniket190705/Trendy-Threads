@@ -2,25 +2,28 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Grid2, TextField } from "@mui/material";
 import AddressCard from "../AddressCard/AddressCard";
 import { useAuth } from "../../../Context/AuthContext.jsx";
+import OrderLoadingOverlay from "../Order/OrderLoadingOverlay.jsx";
 
 const DeliveryAddressForm = () => {
-  const { user, cart, addresses, setAddresses } = useAuth();
+  const { user, cart, cartItems, addresses, setAddresses } = useAuth();
   // const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [payingAddressId, setPayingAddressId] = useState(null);
+  const [payError, setPayError] = useState("");
 
   // ✅ Fetch user addresses on mount
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/address/${user._id}`
+          `${import.meta.env.VITE_API_BASE_URL}/api/address/${user._id}`,
         );
         const data = await response.json();
         if (response.ok) {
           setAddresses(data.addresses || []);
           localStorage.setItem(
             "addresses",
-            JSON.stringify(data.addresses || [])
+            JSON.stringify(data.addresses || []),
           );
         } else {
           console.error("Failed to fetch addresses:", data.error);
@@ -52,7 +55,7 @@ const DeliveryAddressForm = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload), // 👈 send with userId
-        }
+        },
       );
 
       const result = await response.json();
@@ -60,7 +63,7 @@ const DeliveryAddressForm = () => {
         console.log("Address added:", result.address);
         localStorage.setItem(
           "addresses",
-          JSON.stringify([...addresses, result.address])
+          JSON.stringify([...addresses, result.address]),
         );
         setAddresses((prev) => [...prev, result.address]);
 
@@ -81,7 +84,7 @@ const DeliveryAddressForm = () => {
       console.log("Removing address:", addressId);
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/address/${addressId}`,
-        { method: "DELETE" }
+        { method: "DELETE" },
       );
 
       if (response.ok) {
@@ -97,6 +100,7 @@ const DeliveryAddressForm = () => {
   // ✅ Select an address and go to payment
   const handleDeliverHere = async (address) => {
     try {
+      setPayError("");
       console.log("Delivering to address:", address);
       const orderData = {
         userId: user._id,
@@ -104,38 +108,79 @@ const DeliveryAddressForm = () => {
         totalItem: cart.totalItem,
         discountedPrice: cart.totalDiscountedPrice,
         shippingAddress: address,
+        items: cartItems.map((item) => ({
+          productId: item.productId,
+          title: item.title,
+          imageUrl: item.imageUrl,
+          price: item.price,
+          discountedPrice: item.discountedPrice,
+          quantity: item.quantity,
+          color: item.color,
+        })),
       };
 
+      setPayingAddressId(address._id);
       const response = await fetch(
         `${import.meta.env.VITE_API_BASE_URL}/api/payments/createOrder`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(orderData),
-        }
+        },
       );
 
       const result = await response.json();
-      if (response.ok) {
-        // create payment link
-        const paymentRes = await fetch(
-          `${import.meta.env.VITE_API_BASE_URL}/api/payments/paymentlink/${
-            result.order._id
-          }`,
-          { method: "POST" }
+      if (!response.ok) {
+        setPayError(result?.error || "Could not create order for payment.");
+        return;
+      }
+
+      // create payment link
+      const paymentRes = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/payments/paymentlink/${
+          result.order._id
+        }`,
+        { method: "POST" },
+      );
+
+      const paymentText = await paymentRes.text();
+      let paymentData = null;
+      try {
+        paymentData = paymentText ? JSON.parse(paymentText) : null;
+      } catch (error) {
+        paymentData = { error: paymentText };
+      }
+
+      if (!paymentRes.ok) {
+        setPayError(
+          paymentData?.error || "Could not create payment link. Please try again."
         );
-        const paymentData = await paymentRes.json();
-        if (paymentRes.ok) {
-          window.location.href = paymentData.paymentLink.payment_link_url;
-        }
+        return;
+      }
+
+      if (paymentData?.paymentLink?.payment_link_url) {
+        window.location.href = paymentData.paymentLink.payment_link_url;
+      } else {
+        setPayError("Payment link is missing from server response.");
       }
     } catch (error) {
       console.error("Error delivering here:", error);
+      setPayError("Something went wrong while starting payment.");
+    } finally {
+      setPayingAddressId(null);
     }
   };
 
   return (
     <div>
+      {payingAddressId && (
+        <OrderLoadingOverlay message="Preparing your order and opening the payment page..." />
+      )}
+      {payError && (
+        <div className="mx-5 mb-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {payError}
+        </div>
+      )}
       <Grid2 container spacing={4}>
         {/* LEFT COLUMN - Address List */}
         <Grid2
@@ -153,9 +198,12 @@ const DeliveryAddressForm = () => {
                   sx={{ bgcolor: "RGB(145 85 253)" }}
                   size="small"
                   variant="contained"
+                  disabled={payingAddressId === address._id}
                   onClick={() => handleDeliverHere(address)}
                 >
-                  Deliver Here and Pay
+                  {payingAddressId === address._id
+                    ? "Redirecting to payment..."
+                    : "Deliver Here and Pay"}
                 </Button>
                 <Button
                   sx={{ bgcolor: "red" }}

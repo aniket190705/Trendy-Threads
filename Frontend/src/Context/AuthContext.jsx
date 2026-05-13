@@ -3,30 +3,47 @@ import { createContext, useState, useContext } from "react";
 
 const AuthContext = createContext();
 
+const readStoredJson = (key, fallback) => {
+  const storedValue = localStorage.getItem(key);
+
+  if (
+    storedValue === null ||
+    storedValue === undefined ||
+    storedValue === "" ||
+    storedValue === "undefined" ||
+    storedValue === "null"
+  ) {
+    return fallback;
+  }
+
+  try {
+    return JSON.parse(storedValue);
+  } catch (error) {
+    localStorage.removeItem(key);
+    return fallback;
+  }
+};
+
 export const AuthProvider = ({ children }) => {
   // Load user from localStorage when context initializes
   const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
+    return readStoredJson("user", null);
   });
 
   const [cart, setCart] = useState(() => {
-    const storedCart = localStorage.getItem("cart");
-    return storedCart ? JSON.parse(storedCart) : null;
+    return readStoredJson("cart", null);
   });
   const [cartItems, setCartItems] = useState(() => {
-    const storedCartItems = localStorage.getItem("cartItems");
-    return storedCartItems ? JSON.parse(storedCartItems) : [];
+    return readStoredJson("cartItems", []);
   });
   const [isSignedIn, setIsSignedIn] = useState(() => {
-    return !!localStorage.getItem("user");
+    return !!readStoredJson("user", null);
   });
 
   const [productToAdd, setProductToAdd] = useState(null);
 
   const [addresses, setAddresses] = useState(() => {
-    const storedAddresses = localStorage.getItem("addresses");
-    return storedAddresses ? JSON.parse(storedAddresses) : [];
+    return readStoredJson("addresses", []);
   });
 
   // Save user to state + localStorage on login

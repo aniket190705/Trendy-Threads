@@ -1,9 +1,18 @@
+require("dotenv").config();
+
 const express = require('express');
 const cors = require('cors');
 const app = express();
+
+const allowedOrigins = [
+    "https://trendy-threads-sigma.vercel.app",
+    "http://localhost:5173",
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(express.json());
 app.use(cors({
-    origin: ["https://trendy-threads-sigma.vercel.app", "http://localhost:5173"], // Allow requests only from your frontend
+    origin: allowedOrigins,
     methods: "GET,POST,PUT,DELETE",  // Allow specific HTTP methods
     credentials: true                // Allow cookies if needed
 }));
@@ -37,5 +46,8 @@ app.use("/api/products", productRouter);
 
 const addressRouter = require("./src/routes/address.route");
 app.use("/api/address", addressRouter);
+
+const orderRouter = require("./src/routes/order.route");
+app.use("/api/orders", orderRouter);
 
 module.exports = app;

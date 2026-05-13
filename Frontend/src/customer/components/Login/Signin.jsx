@@ -6,11 +6,14 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, signup } = useAuth();
-  const [invalid, setInvalid] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setCart } = useAuth();
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setFormError("");
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -36,7 +39,7 @@ const SignIn = () => {
 
           const data2 = await response2.json();
           console.log("Cart fetched in signed in: ", data2);
-          localStorage.setItem("cart", JSON.stringify(data2));
+          localStorage.setItem("cart", JSON.stringify(data2 || null));
           setCart(data2); // Set the cart in AuthContext
           // setCartItems(data.cartItems);
           console.log("Cart fetched in signed in: ", data2);
@@ -47,11 +50,13 @@ const SignIn = () => {
         login(data.user); // Save user to context
         navigate("/"); // Redirect to homepage
       } else {
-        setInvalid(true);
+        setFormError(data?.error || "Please check your email and password.");
       }
     } catch (error) {
       console.error("Error signing in:", error);
-      alert("Something went wrong.");
+      setFormError("Something went wrong while signing in.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,10 +102,16 @@ const SignIn = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+            disabled={loading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-200 disabled:cursor-not-allowed disabled:bg-blue-400"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
+          {formError && (
+            <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+              {formError}
+            </div>
+          )}
         </form>
 
         <p className="text-sm text-center text-gray-500 mt-4">

@@ -3,11 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext";
 export default function Signup() {
   const [darkMode, setDarkMode] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { setCart, signup } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError("");
+    setLoading(true);
 
     const data = new FormData(e.currentTarget);
 
@@ -28,7 +32,7 @@ export default function Signup() {
       console.log("response: ", result.user);
       if (response.ok) {
         console.log("logged in successful: " + result.message);
-        const cart = result.cart;
+        const cart = result.cart || null;
         localStorage.setItem("cart", JSON.stringify(cart)); // Save cart to localStorage
         setCart(cart);
         signup(result.user); // Update user state in AuthContext
@@ -36,10 +40,15 @@ export default function Signup() {
         localStorage.setItem("token", result.jwt); // ✅ Store JWT
         navigate("/"); // ✅ Redirect to Home Page
       } else {
-        alert("Invalid email or password!");
+        setFormError(
+          result?.error || "We could not create your account right now."
+        );
       }
     } catch (error) {
       console.error("Error:", error);
+      setFormError("Something went wrong while creating your account.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,10 +142,16 @@ export default function Signup() {
               {/* Register Button */}
               <button
                 type="submit"
-                className="mt-5 flex items-center justify-center tracking-wide font-semibold bg-orange-600 text-white w-full py-4 rounded-md hover:bg-orange-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                disabled={loading}
+                className="mt-5 flex items-center justify-center tracking-wide font-semibold bg-orange-600 text-white w-full py-4 rounded-md hover:bg-orange-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:cursor-not-allowed disabled:bg-orange-400"
               >
-                Register
+                {loading ? "Creating Account..." : "Register"}
               </button>
+              {formError && (
+                <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                  {formError}
+                </div>
+              )}
             </div>
           </div>
         </form>

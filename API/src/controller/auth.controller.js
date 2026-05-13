@@ -19,6 +19,9 @@ const register = async (req, res) => {  // This function is called when a new us
 
     catch (err) {
         console.log("error in register: ", err);
+        if (err.message && err.message.toLowerCase().includes("already exist")) {
+            return res.status(409).send({ error: "An account with this email already exists." });
+        }
         return res.status(500).send({ error: err.message });
     }
 }
@@ -29,7 +32,7 @@ const login = async (req, res) => {  // This function is called when a user logs
         console.log("email and password: ", email, password);
         const user = await userService.getUserByEmail(email);
         if (!user) {
-            return res.status(404).send({ error: "user not found with email: ", email });
+            return res.status(404).send({ error: "No account found with this email." });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {

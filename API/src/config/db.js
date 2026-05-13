@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
-const mongodbUrl = "mongodb+srv://aniket190705:6NdVDHi%25%40YwknUt@cluster0.rjmrj.mongodb.net/myDatabase?retryWrites=true&w=majority";
+const mongodbUrl =
+    process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/trendythreads";
 
 const connectDB = async () => {
     try {
         await mongoose.connect(mongodbUrl);
-        console.log("MongoDB Connected Successfully");
+        console.log("MongoDB connected successfully");
     } catch (error) {
-        console.error("MongoDB Connection Failed:", error.message);
-        process.exit(1);
+        console.error("MongoDB connection failed:", error.message);
+        throw error;
     }
 };
 

@@ -1,12 +1,25 @@
-const app = require('./index.js');
-const connectDB = require('./src/config/db.js');
+require("dotenv").config();
 
-const PORT = 3000;
-app.listen(PORT, async (req, res) => {
-    await connectDB();
-    console.log(`Server is running on http://localhost:${PORT}`);
+const app = require("./index.js");
+const connectDB = require("./src/config/db.js");
+const { connectRedis } = require("./src/config/redis.js");
 
-    //https://trendy-threads-jsld.onrender.com
-});
+const PORT = process.env.PORT || 3000;
+
+const startServer = async () => {
+    try {
+        await connectDB();
+        await connectRedis();
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on http://localhost:${PORT}`);
+        });
+    } catch (error) {
+        console.error("Server startup failed:", error.message);
+        process.exit(1);
+    }
+};
+
+startServer();
 
 
