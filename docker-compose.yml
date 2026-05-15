@@ -1,7 +1,8 @@
 services:
   frontend:
     build:
-      context: ./Frontend
+      context: .
+      dockerfile: Frontend/Dockerfile
     env_file:
       - ./Frontend/.env
     ports:

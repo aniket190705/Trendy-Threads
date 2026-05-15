@@ -10,26 +10,29 @@ export default function ProductDetails() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, cart, cartItems, setCartItems } = useAuth();
+  const { user, cart, setCart, setCartItems } = useAuth();
   const item = location.state || location.state.item || {};
 
-  const fetchCartItems = async (str) => {
+  const fetchCartData = async () => {
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
     );
     const data = await response.json();
+    localStorage.setItem("cart", JSON.stringify(data));
     localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
+    setCart(data);
     setCartItems(data.cartItems);
+    return data;
   };
 
-  const createCartItem = async () => {
+  const createCartItem = async (cartId) => {
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/api/cartitems`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cart: cart._id,
+          cart: cartId,
           price: item.price,
           discountedPrice: item.discountedPrice,
           userId: user._id,
@@ -72,19 +75,26 @@ export default function ProductDetails() {
     setLoading(true);
 
     try {
-      await fetchCartItems("before adding");
+      const latestCart = await fetchCartData();
+      const latestCartItems = latestCart?.cartItems || [];
 
-      const existingItem = cartItems.find(
+      const existingItem = latestCartItems.find(
         (ci) => ci.productId === item.productId
       );
 
       if (existingItem) {
         await updateCartItem(existingItem);
       } else {
-        await createCartItem();
+        const cartId = latestCart?._id || cart?._id;
+
+        if (!cartId) {
+          throw new Error("Cart not found for this user.");
+        }
+
+        await createCartItem(cartId);
       }
 
-      await fetchCartItems("after add/update");
+      await fetchCartData();
       navigate("/cart", { state: item });
     } catch (err) {
       setNotification("Something went wrong. Try again!");

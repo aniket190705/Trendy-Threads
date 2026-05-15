@@ -1,11 +1,12 @@
 FROM node:20-alpine
 
-WORKDIR /app
+WORKDIR /app/Frontend
 
-COPY package*.json ./
-RUN npm ci
+COPY Frontend/package*.json ./
+RUN npm ci --no-audit --no-fund
 
-COPY . .
+COPY Frontend ./ 
+COPY ecommerceData ../ecommerceData
 
 EXPOSE 5173
 
