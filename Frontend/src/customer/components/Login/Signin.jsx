@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useAuth } from "../../../Context/AuthContext"; // Adjust path if needed
+import { useAuth } from "../../../Context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, signup } = useAuth();
+  const { login } = useAuth();
   const [formError, setFormError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -93,12 +93,6 @@ const SignIn = () => {
               placeholder="Enter your password"
             />
           </div>
-
-          {invalid && (
-            <div className="text-red-500 text-sm">
-              Invalid email or password.
-            </div>
-          )}
 
           <button
             type="submit"
