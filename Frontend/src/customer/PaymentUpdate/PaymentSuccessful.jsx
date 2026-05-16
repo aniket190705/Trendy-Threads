@@ -55,7 +55,7 @@ export default function PaymentSuccess() {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="text-2xl font-bold text-green-600">
-        Payment Successful 🎉
+        Payment Successfulllllll 🎉
       </h1>
       <p className="mt-2 text-gray-600">
         Your order has been placed successfully.
