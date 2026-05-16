@@ -31,28 +31,28 @@ const HomePage = ({ setNotification }) => {
     // Category filter
     if (filters.category !== "All") {
       filtered = filtered.filter(
-        (p) => p.category.toLowerCase() === filters.category.toLowerCase()
+        (p) => p.category.toLowerCase() === filters.category.toLowerCase(),
       );
     }
 
     // Brand filter
     if (filters.brand) {
       filtered = filtered.filter((p) =>
-        p.brand.toLowerCase().includes(filters.brand.toLowerCase())
+        p.brand.toLowerCase().includes(filters.brand.toLowerCase()),
       );
     }
 
     // Min price filter
     if (filters.minPrice) {
       filtered = filtered.filter(
-        (p) => p.discountedPrice >= Number(filters.minPrice)
+        (p) => p.discountedPrice >= Number(filters.minPrice),
       );
     }
 
     // Max price filter
     if (filters.maxPrice) {
       filtered = filtered.filter(
-        (p) => p.discountedPrice <= Number(filters.maxPrice)
+        (p) => p.discountedPrice <= Number(filters.maxPrice),
       );
     }
 
@@ -66,7 +66,7 @@ const HomePage = ({ setNotification }) => {
         className="fixed top-23 right-3 z-50 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center"
         onClick={() => setIsFilterOpen(!isFilterOpen)}
       >
-        <FiFilter className="mr-2" /> Filters
+        <FiFilter className="mr-2" /> Filtersssss
       </button>
 
       {/* Sidebar */}
