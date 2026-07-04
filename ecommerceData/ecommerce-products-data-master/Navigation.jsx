@@ -129,7 +129,7 @@ export default function Navigation() {
                               selected
                                 ? "border-indigo-600 text-indigo-600"
                                 : "border-transparent text-gray-900",
-                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium border-none"
+                              "flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium border-none",
                             )
                           }
                         >
@@ -247,7 +247,7 @@ export default function Navigation() {
 
       <header className="relative bg-white">
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+          Get free delivery on orders over Rs.500
         </p>
 
         <nav aria-label="Top" className="mx-auto">
@@ -287,7 +287,7 @@ export default function Navigation() {
                                 open
                                   ? "border-indigo-600 text-indigo-600"
                                   : "border-transparent text-gray-700 hover:text-gray-800",
-                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out"
+                                "relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out",
                               )}
                             >
                               {category.name}
@@ -371,7 +371,7 @@ export default function Navigation() {
                                                       category,
                                                       section,
                                                       item,
-                                                      close
+                                                      close,
                                                     )
                                                   }
                                                   className="cursor-pointer hover:text-gray-800"
@@ -463,10 +463,12 @@ export default function Navigation() {
 
                 {/* Search */}
                 <div className="flex items-center lg:ml-6">
-                
-                  <p onClick={()=>navigate("/products/search")} className="p-2 text-gray-400 hover:text-gray-500">
+                  <p
+                    onClick={() => navigate("/products/search")}
+                    className="p-2 text-gray-400 hover:text-gray-500"
+                  >
                     <span className="sr-only">Search</span>
-                    
+
                     <MagnifyingGlassIcon
                       className="h-6 w-6"
                       aria-hidden="true"

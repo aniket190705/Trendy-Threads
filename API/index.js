@@ -7,6 +7,7 @@ const app = express();
 const allowedOrigins = [
     "https://trendy-threads-sigma.vercel.app",
     "http://localhost:5173",
+    "http://localhost:3001",
     process.env.FRONTEND_URL
 ].filter(Boolean);
 

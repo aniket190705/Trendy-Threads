@@ -1,48 +1,42 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../../../Context/AuthContext";
+import { buildApiUrl } from "@/lib/api";
+
 export default function Signup() {
   const [darkMode, setDarkMode] = useState(false);
   const [formError, setFormError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
+  const router = useRouter();
   const { setCart, signup } = useAuth();
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setFormError("");
     setLoading(true);
 
-    const data = new FormData(e.currentTarget);
-
+    const data = new FormData(event.currentTarget);
     const formDataObj = Object.fromEntries(data.entries());
-    console.log("user: ", formDataObj);
+
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formDataObj),
-        }
-      );
+      const response = await fetch(buildApiUrl("/auth/signup"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formDataObj),
+      });
       const result = await response.json();
-      console.log("response: ", result.user);
+
       if (response.ok) {
-        console.log("logged in successful: " + result.message);
         const cart = result.cart || null;
-        localStorage.setItem("cart", JSON.stringify(cart)); // Save cart to localStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
         setCart(cart);
-        signup(result.user); // Update user state in AuthContext
-        console.log("cart created while sign up:", cart); // Set the cart in AuthContext
-        localStorage.setItem("token", result.jwt); // ✅ Store JWT
-        navigate("/"); // ✅ Redirect to Home Page
+        signup(result.user);
+        localStorage.setItem("token", result.jwt);
+        router.push("/");
       } else {
-        setFormError(
-          result?.error || "We could not create your account right now."
-        );
+        setFormError(result?.error || "We could not create your account right now.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -54,101 +48,95 @@ export default function Signup() {
 
   return (
     <div
-      className={`flex flex-col justify-center items-center w-full h-screen px-5 transition-colors duration-300 ${
-        darkMode ? "bg-gray-900" : "bg-gray-100"
+      className={`flex min-h-[80vh] flex-col items-center justify-center px-5 py-10 transition-colors duration-300 ${
+        darkMode ? "bg-slate-900" : "bg-transparent"
       }`}
     >
-      {/* Dark Mode Toggle */}
-      <div className="flex justify-end w-full max-w-3xl">
-        <div className="flex items-center text-white space-x-2">
+      <div className="flex w-full max-w-3xl justify-end">
+        <div className={`flex items-center space-x-2 ${darkMode ? "text-white" : "text-stone-700"}`}>
           <span>Dark Mode:</span>
           <button
             onClick={() => setDarkMode(!darkMode)}
             role="switch"
             aria-checked={darkMode}
-            className={`w-12 h-6 rounded-full flex items-center transition-all duration-300 ${
-              darkMode ? "bg-green-500" : "bg-gray-300"
+            className={`flex h-6 w-12 items-center rounded-full transition-all duration-300 ${
+              darkMode ? "bg-green-500" : "bg-stone-300"
             }`}
           >
             <span
-              className={`h-5 w-5 bg-white rounded-full transform transition-all duration-300 ${
+              className={`h-5 w-5 rounded-full bg-white transition-all duration-300 ${
                 darkMode ? "translate-x-6" : "translate-x-1"
               }`}
-            ></span>
+            />
           </button>
         </div>
       </div>
 
-      {/* Form Container */}
       <div
-        className={`w-full max-w-3xl p-6 sm:p-10 rounded-lg shadow-lg transition-colors duration-300 ${
-          darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        className={`w-full max-w-3xl rounded-[32px] p-6 shadow-soft transition-colors duration-300 sm:p-10 ${
+          darkMode ? "bg-slate-800 text-white" : "bg-white/90 text-stone-900"
         }`}
       >
-        <h1 className="text-center text-2xl sm:text-3xl font-semibold">
+        <h1 className="text-center font-serif text-3xl sm:text-4xl">
           Register for a Free Account
         </h1>
         <form onSubmit={handleSubmit}>
-          <div className="w-full mt-8">
-            <div className="mx-auto max-w-md flex flex-col gap-4">
-              {/* Name Fields */}
-              <div className="flex flex-col sm:flex-row gap-3">
+          <div className="mt-8 w-full">
+            <div className="mx-auto flex max-w-md flex-col gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row">
                 <input
-                  name="firstName" // ✅ Added name
-                  className={`w-full px-4 py-3 rounded-md font-medium border-2 transition-all duration-300 focus:outline-none focus:ring-2 ${
+                  name="firstName"
+                  className={`w-full rounded-2xl border-2 px-4 py-3 font-medium transition-all duration-300 focus:outline-none focus:ring-2 ${
                     darkMode
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-white"
-                      : "bg-gray-100 border-gray-300 text-black focus:ring-gray-800"
+                      ? "border-slate-600 bg-slate-700 text-white focus:ring-white"
+                      : "border-stone-300 bg-stone-100 text-black focus:ring-stone-800"
                   }`}
                   type="text"
                   placeholder="First Name"
                 />
                 <input
-                  name="lastName" // ✅ Added name
-                  className={`w-full px-4 py-3 rounded-md font-medium border-2 transition-all duration-300 focus:outline-none focus:ring-2 ${
+                  name="lastName"
+                  className={`w-full rounded-2xl border-2 px-4 py-3 font-medium transition-all duration-300 focus:outline-none focus:ring-2 ${
                     darkMode
-                      ? "bg-gray-700 border-gray-600 text-white focus:ring-white"
-                      : "bg-gray-100 border-gray-300 text-black focus:ring-gray-800"
+                      ? "border-slate-600 bg-slate-700 text-white focus:ring-white"
+                      : "border-stone-300 bg-stone-100 text-black focus:ring-stone-800"
                   }`}
                   type="text"
                   placeholder="Last Name"
                 />
               </div>
 
-              {/* Email & Phone */}
               <input
-                name="email" // ✅ Added name
-                className={`w-full px-4 py-3 rounded-md font-medium border-2 transition-all duration-300 focus:outline-none focus:ring-2 ${
+                name="email"
+                className={`w-full rounded-2xl border-2 px-4 py-3 font-medium transition-all duration-300 focus:outline-none focus:ring-2 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white focus:ring-white"
-                    : "bg-gray-100 border-gray-300 text-black focus:ring-gray-800"
+                    ? "border-slate-600 bg-slate-700 text-white focus:ring-white"
+                    : "border-stone-300 bg-stone-100 text-black focus:ring-stone-800"
                 }`}
                 type="email"
                 placeholder="Enter your email"
               />
 
-              {/* Password */}
               <input
-                name="password" // ✅ Added name
-                className={`w-full px-4 py-3 rounded-md font-medium border-2 transition-all duration-300 focus:outline-none focus:ring-2 ${
+                name="password"
+                className={`w-full rounded-2xl border-2 px-4 py-3 font-medium transition-all duration-300 focus:outline-none focus:ring-2 ${
                   darkMode
-                    ? "bg-gray-700 border-gray-600 text-white focus:ring-white"
-                    : "bg-gray-100 border-gray-300 text-black focus:ring-gray-800"
+                    ? "border-slate-600 bg-slate-700 text-white focus:ring-white"
+                    : "border-stone-300 bg-stone-100 text-black focus:ring-stone-800"
                 }`}
                 type="password"
                 placeholder="Password"
               />
 
-              {/* Register Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-5 flex items-center justify-center tracking-wide font-semibold bg-orange-600 text-white w-full py-4 rounded-md hover:bg-orange-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:cursor-not-allowed disabled:bg-orange-400"
+                className="mt-5 flex w-full items-center justify-center rounded-full bg-brand-800 py-4 font-semibold tracking-wide text-white transition-all duration-300 hover:bg-brand-700 disabled:cursor-not-allowed disabled:bg-brand-300"
               >
                 {loading ? "Creating Account..." : "Register"}
               </button>
               {formError && (
-                <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                   {formError}
                 </div>
               )}

@@ -1,25 +1,31 @@
-import React from "react";
+"use client";
 
 const FilterSidebar = ({ filters, setFilters }) => {
-  const handleChange = (e) => {
+  const handleChange = (event) => {
     setFilters({
       ...filters,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   };
 
   return (
-    <div className="p-6">
-      <h2 className="font-bold text-xl mb-4">Filters</h2>
+    <div className="h-full bg-white p-6">
+      <div className="mb-8">
+        <p className="text-xs uppercase tracking-[0.35em] text-stone-400">
+          Refine
+        </p>
+        <h2 className="mt-2 font-serif text-3xl text-brand-900">Filters</h2>
+      </div>
 
-      {/* Category */}
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Category</label>
+      <div className="mb-5">
+        <label className="mb-2 block text-sm font-semibold text-stone-700">
+          Category
+        </label>
         <select
           name="category"
           value={filters.category}
           onChange={handleChange}
-          className="border p-2 rounded w-full"
+          className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-3 text-sm outline-none transition focus:border-brand-400"
         >
           <option value="All">All</option>
           <option value="Men">Men</option>
@@ -28,42 +34,45 @@ const FilterSidebar = ({ filters, setFilters }) => {
         </select>
       </div>
 
-      {/* Brand */}
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Brand</label>
+      <div className="mb-5">
+        <label className="mb-2 block text-sm font-semibold text-stone-700">
+          Brand
+        </label>
         <input
           type="text"
           name="brand"
           value={filters.brand}
           onChange={handleChange}
           placeholder="Enter brand"
-          className="border p-2 rounded w-full"
+          className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-3 text-sm outline-none transition focus:border-brand-400"
         />
       </div>
 
-      {/* Min Price */}
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Min Price</label>
+      <div className="mb-5">
+        <label className="mb-2 block text-sm font-semibold text-stone-700">
+          Min Price
+        </label>
         <input
           type="number"
           name="minPrice"
           value={filters.minPrice}
           onChange={handleChange}
-          placeholder="₹ min"
-          className="border p-2 rounded w-full"
+          placeholder="Rs. min"
+          className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-3 text-sm outline-none transition focus:border-brand-400"
         />
       </div>
 
-      {/* Max Price */}
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Max Price</label>
+      <div className="mb-5">
+        <label className="mb-2 block text-sm font-semibold text-stone-700">
+          Max Price
+        </label>
         <input
           type="number"
           name="maxPrice"
           value={filters.maxPrice}
           onChange={handleChange}
-          placeholder="₹ max"
-          className="border p-2 rounded w-full"
+          placeholder="Rs. max"
+          className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-3 text-sm outline-none transition focus:border-brand-400"
         />
       </div>
     </div>

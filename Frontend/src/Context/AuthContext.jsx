@@ -1,5 +1,6 @@
-// AuthContext.jsx
-import { createContext, useState, useContext } from "react";
+"use client";
+
+import { createContext, useEffect, useState, useContext } from "react";
 
 const AuthContext = createContext();
 
@@ -18,35 +19,35 @@ const readStoredJson = (key, fallback) => {
 
   try {
     return JSON.parse(storedValue);
-  } catch (error) {
+  } catch {
     localStorage.removeItem(key);
     return fallback;
   }
 };
 
 export const AuthProvider = ({ children }) => {
-  // Load user from localStorage when context initializes
-  const [user, setUser] = useState(() => {
-    return readStoredJson("user", null);
-  });
-
-  const [cart, setCart] = useState(() => {
-    return readStoredJson("cart", null);
-  });
-  const [cartItems, setCartItems] = useState(() => {
-    return readStoredJson("cartItems", []);
-  });
-  const [isSignedIn, setIsSignedIn] = useState(() => {
-    return !!readStoredJson("user", null);
-  });
-
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [productToAdd, setProductToAdd] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  const [addresses, setAddresses] = useState(() => {
-    return readStoredJson("addresses", []);
-  });
+  useEffect(() => {
+    const storedUser = readStoredJson("user", null);
+    const storedCart = readStoredJson("cart", null);
+    const storedCartItems = readStoredJson("cartItems", []);
+    const storedAddresses = readStoredJson("addresses", []);
 
-  // Save user to state + localStorage on login
+    setUser(storedUser);
+    setCart(storedCart);
+    setCartItems(storedCartItems);
+    setAddresses(storedAddresses);
+    setIsSignedIn(!!storedUser);
+    setIsHydrated(true);
+  }, []);
+
   const login = (userData) => {
     setUser(userData);
     setIsSignedIn(true);
@@ -59,12 +60,17 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // Clear state + localStorage on logout
   const logout = () => {
     setUser(null);
     setIsSignedIn(false);
-    localStorage.removeItem("token"); // If you store a token
+    setCart(null);
+    setCartItems([]);
+    setAddresses([]);
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("cartItems");
+    localStorage.removeItem("addresses");
   };
 
   return (
@@ -85,6 +91,7 @@ export const AuthProvider = ({ children }) => {
         addresses,
         setAddresses,
         signup,
+        isHydrated,
       }}
     >
       {children}

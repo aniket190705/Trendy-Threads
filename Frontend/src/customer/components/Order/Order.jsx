@@ -1,7 +1,10 @@
+"use client";
+
 import { Grid2 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import OrderCard from "./OrderCard";
 import { useAuth } from "../../../Context/AuthContext";
+import { buildApiUrl } from "@/lib/api";
 
 const readApiResponse = async (response) => {
   const contentType = response.headers.get("content-type") || "";
@@ -23,7 +26,7 @@ const Order = () => {
   const [cancellingOrderId, setCancellingOrderId] = useState(null);
   const [fetchError, setFetchError] = useState("");
 
-  const fetchOrders = async () => {
+  const fetchOrders = useCallback(async () => {
     if (!user?._id) {
       setLoading(false);
       return;
@@ -31,9 +34,7 @@ const Order = () => {
 
     try {
       setFetchError("");
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/orders/user/${user._id}`
-      );
+      const response = await fetch(buildApiUrl(`/api/orders/user/${user._id}`));
       const data = await readApiResponse(response);
       if (response.ok) {
         setOrders(data.orders || []);
@@ -47,25 +48,22 @@ const Order = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user?._id]);
 
   useEffect(() => {
     fetchOrders();
-  }, [user?._id]);
+  }, [fetchOrders]);
 
   const handleCancelOrder = async (orderId) => {
     try {
       setCancellingOrderId(orderId);
-      const response = await fetch(
-        `${import.meta.env.VITE_API_BASE_URL}/api/orders/${orderId}/cancel`,
-        {
-          method: "PUT",
-        }
-      );
+      const response = await fetch(buildApiUrl(`/api/orders/${orderId}/cancel`), {
+        method: "PUT",
+      });
       const data = await response.json();
       if (response.ok) {
-        setOrders((prev) =>
-          prev.map((order) => (order._id === orderId ? data.order : order))
+        setOrders((previous) =>
+          previous.map((order) => (order._id === orderId ? data.order : order)),
         );
       }
     } catch (error) {
@@ -78,28 +76,27 @@ const Order = () => {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="font-serif text-3xl text-brand-900">My Orders</h1>
+        <p className="mt-1 text-sm text-stone-500">
           See your past purchases and cancel orders before delivery.
         </p>
       </div>
 
       {!isSignedIn && (
-        <div className="rounded-xl border bg-white p-6 text-gray-600 shadow-sm">
+        <div className="rounded-[28px] border bg-white p-6 text-stone-600 shadow-sm">
           Please sign in to view your order history.
         </div>
       )}
 
       {isSignedIn && loading && (
-        <div className="rounded-xl border bg-white p-6 text-gray-600 shadow-sm">
+        <div className="rounded-[28px] border bg-white p-6 text-stone-600 shadow-sm">
           Loading your orders...
         </div>
       )}
 
       {isSignedIn && !loading && orders.length === 0 && (
-        <div className="rounded-xl border bg-white p-6 text-gray-600 shadow-sm">
-          {fetchError ||
-            "No orders yet. Your completed checkouts will appear here."}
+        <div className="rounded-[28px] border bg-white p-6 text-stone-600 shadow-sm">
+          {fetchError || "No orders yet. Your completed checkouts will appear here."}
         </div>
       )}
 
@@ -107,12 +104,10 @@ const Order = () => {
         <Grid2 container spacing={3}>
           {orders.map((order) => (
             <Grid2 key={order._id} size={{ xs: 12 }}>
-              <div className="rounded-xl border bg-white shadow-sm">
+              <div className="rounded-[28px] border bg-white shadow-sm">
                 <OrderCard order={order} />
                 <div className="flex items-center justify-between px-7 pb-5">
-                  <p className="text-sm text-gray-500">
-                    Status: {order.orderStatus}
-                  </p>
+                  <p className="text-sm text-stone-500">Status: {order.orderStatus}</p>
                   <button
                     type="button"
                     onClick={(event) => {
@@ -123,10 +118,10 @@ const Order = () => {
                       order.orderStatus === "cancelled" ||
                       cancellingOrderId === order._id
                     }
-                    className={`rounded-md px-4 py-2 text-sm font-medium text-white ${
+                    className={`rounded-full px-4 py-2 text-sm font-medium text-white ${
                       order.orderStatus === "cancelled" ||
                       cancellingOrderId === order._id
-                        ? "cursor-not-allowed bg-gray-400"
+                        ? "cursor-not-allowed bg-stone-400"
                         : "bg-red-500 hover:bg-red-600"
                     }`}
                   >

@@ -1,8 +1,4 @@
-import React from "react";
-import ProductCard from "./ProductCard";
-import { mens_kurta } from "../../../data/mensKurta.js";
-import { useNavigate } from "react-router-dom";
-("use client");
+"use client";
 
 import { useState } from "react";
 import {
@@ -25,219 +21,77 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import { filters, singleFilter } from "./filterData";
 import {
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
 } from "@mui/material";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import ProductCard from "./ProductCard";
+import { storefrontCatalog } from "@/lib/catalog";
+import { filters, singleFilter } from "./filterData";
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
   { name: "Price: High to Low", href: "#", current: false },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-export default function Product() {
+export default function Product({ params }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [currentValue, setCurrentValue] = useState(false);
+  const [currentValue, setCurrentValue] = useState("");
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  // setCurrentValue((e) => {
-  //   console.log(e.target.checked);
-  //   return e.target.check;
-  // });
-
-  const navigate = useNavigate();
   const handleParams = (value, sectionId) => {
-    const searchParams = new URLSearchParams(location.search);
-    let filterValue = searchParams.getAll(sectionId);
+    const nextParams = new URLSearchParams(searchParams.toString());
+    let filterValue = nextParams.getAll(sectionId);
 
     if (filterValue.length > 0 && filterValue[0].split(",").includes(value)) {
       filterValue = filterValue[0].split(",").filter((item) => item !== value);
 
       if (filterValue.length === 0) {
-        searchParams.delete(sectionId);
-        // searchParams.set(sectionId, filterValue.join(","));
-
-        const query = searchParams.toString();
-
-        navigate({ search: `?${query}` });
+        nextParams.delete(sectionId);
       } else {
-        searchParams.set(sectionId, filterValue.join(","));
-        const query = searchParams.toString();
-        navigate({ search: `?${query}` });
+        nextParams.set(sectionId, filterValue.join(","));
       }
     } else {
+      filterValue = filterValue.length > 0 ? filterValue[0].split(",") : [];
       filterValue.push(value);
-      searchParams.set(sectionId, filterValue.join(","));
-      const query = searchParams.toString();
-      navigate({ search: `?${query}` });
+      nextParams.set(sectionId, filterValue.join(","));
     }
+
+    const query = nextParams.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
   };
+
   return (
-    <div className="bg-white">
-      <div>
-        {/* Mobile filter dialog */}
-        <Dialog
-          open={mobileFiltersOpen}
-          onClose={setMobileFiltersOpen}
-          className="relative z-40 lg:hidden"
-        >
-          <DialogBackdrop
-            transition
-            className="fixed inset-0 bg-black bg-opacity-25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
-          />
-
-          <div className="fixed inset-0 z-40 flex">
-            <DialogPanel
-              transition
-              className="relative ml-auto flex h-full w-full max-w-xs transform flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
-            >
-              <div className="flex items-center justify-between px-4">
-                <h2 className="text-lg font-medium text-gray-900">Filters</h2>
-                <button
-                  type="button"
-                  onClick={() => setMobileFiltersOpen(false)}
-                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                >
-                  <span className="sr-only">Close menu</span>
-                  <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-                </button>
-              </div>
-
-              {/* Filters */}
-              <form className="mt-4 border-t border-gray-200">
-                {filters.map((section) => (
-                  <Disclosure
-                    key={section.id}
-                    as="div"
-                    className="border-t border-gray-200 px-4 py-6"
-                  >
-                    <h3 className="-mx-2 -my-3 flow-root">
-                      <DisclosureButton className="group flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                        <span className="font-medium text-gray-900">
-                          {section.name}
-                        </span>
-                        <span className="ml-6 flex items-center">
-                          <PlusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 group-data-[open]:hidden"
-                          />
-                          <MinusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 [.group:not([data-open])_&]:hidden"
-                          />
-                        </span>
-                      </DisclosureButton>
-                    </h3>
-                    <DisclosurePanel className="pt-6">
-                      <div className="space-y-6">
-                        {section.options.map((option, optionIdx) => (
-                          <div key={option.value} className="flex items-center">
-                            <input
-                              defaultValue={option.value}
-                              defaultChecked={option.checked}
-                              id={`filter-mobile-${section.id}-${optionIdx}`}
-                              name={`${section.id}[]`}
-                              type="checkbox"
-                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                            />
-                            <label
-                              htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                              className="ml-3 min-w-0 flex-1 text-gray-500"
-                            >
-                              {option.label}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                    </DisclosurePanel>
-                  </Disclosure>
-                ))}
-                {singleFilter.map((section) => {
-                  return (
-                    <Disclosure
-                      key={section.id}
-                      as="div"
-                      className="border-t border-gray-200 px-4 py-6"
-                    >
-                      <h3 className="-mx-2 -my-3 flow-root">
-                        <DisclosureButton className="group flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">
-                            {section.name}
-                          </span>
-                          <span className="ml-6 flex items-center">
-                            <PlusIcon
-                              aria-hidden="true"
-                              className="h-5 w-5 group-data-[open]:hidden"
-                            />
-                            <MinusIcon
-                              aria-hidden="true"
-                              className="h-5 w-5 [.group:not([data-open])_&]:hidden"
-                            />
-                          </span>
-                        </DisclosureButton>
-                      </h3>
-                      <DisclosurePanel className="pt-6">
-                        <div className="space-y-6">
-                          {section.options.map((option, optionIdx) => (
-                            <div
-                              key={option.value}
-                              className="flex items-center"
-                            >
-                              <input
-                                defaultValue={option.value}
-                                // defaultChecked={option.checked}
-                                id={`filter-mobile-${section.id}-${optionIdx}`}
-                                name={`${section.id}[]`}
-                                type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                              />
-                              <label
-                                htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                className="ml-3 min-w-0 flex-1 text-gray-500"
-                              >
-                                {option.label}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </DisclosurePanel>
-                    </Disclosure>
-                  );
-                })}
-              </form>
-            </DialogPanel>
-          </div>
-        </Dialog>
-
-        <main className="mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
-            </h1>
+    <div className="bg-transparent px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl">
+        <div className="mb-10 rounded-[36px] border border-white/70 bg-white/80 px-6 pb-6 pt-10 shadow-soft backdrop-blur sm:px-8">
+          <div className="flex items-baseline justify-between border-b border-stone-200 pb-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.28em] text-stone-400">
+                {params?.levelOne || "Men"}
+              </p>
+              <h1 className="mt-2 font-serif text-4xl tracking-tight text-brand-900">
+                New Arrivals
+              </h1>
+            </div>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
-                <div>
-                  <MenuButton className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Sort
-                    <ChevronDownIcon
-                      aria-hidden="true"
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                    />
-                  </MenuButton>
-                </div>
+                <MenuButton className="group inline-flex justify-center text-sm font-medium text-stone-700 hover:text-stone-900">
+                  Sort
+                  <ChevronDownIcon className="-mr-1 ml-1 h-5 w-5 text-stone-400 group-hover:text-stone-500" />
+                </MenuButton>
 
-                <MenuItems
-                  transition
-                  className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
-                >
+                <MenuItems className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-2xl bg-white p-2 shadow-2xl ring-1 ring-black/5 focus:outline-none">
                   <div className="py-1">
                     {sortOptions.map((option) => (
                       <MenuItem key={option.name}>
@@ -245,9 +99,9 @@ export default function Product() {
                           href={option.href}
                           className={classNames(
                             option.current
-                              ? "font-medium text-gray-900"
-                              : "text-gray-500",
-                            "block px-4 py-2 text-sm data-[focus]:bg-gray-100"
+                              ? "font-medium text-stone-900"
+                              : "text-stone-500",
+                            "block rounded-xl px-4 py-2 text-sm data-[focus]:bg-stone-100",
                           )}
                         >
                           {option.name}
@@ -258,52 +112,36 @@ export default function Product() {
                 </MenuItems>
               </Menu>
 
-              <button
-                type="button"
-                className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
-              >
+              <button type="button" className="-m-2 ml-5 p-2 text-stone-400 hover:text-stone-500 sm:ml-7">
                 <span className="sr-only">View grid</span>
-                <Squares2X2Icon aria-hidden="true" className="h-5 w-5" />
+                <Squares2X2Icon className="h-5 w-5" />
               </button>
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                className="-m-2 ml-4 p-2 text-stone-400 hover:text-stone-500 sm:ml-6 lg:hidden"
               >
                 <span className="sr-only">Filters</span>
-                <FunnelIcon aria-hidden="true" className="h-5 w-5" />
+                <FunnelIcon className="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <section aria-labelledby="products-heading" className="pt-6">
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
-              {/* Filters */}
               <form className="hidden lg:block">
                 {filters.map((section) => (
-                  <Disclosure
-                    key={section.id}
-                    as="div"
-                    className="border-b border-gray-200 py-6"
-                  >
+                  <Disclosure key={section.id} as="div" className="border-b border-stone-200 py-6">
                     <h3 className="-my-3 flow-root">
-                      <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                        <span className="font-medium text-gray-900">
-                          {section.name}
-                        </span>
+                      <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-stone-400 hover:text-stone-500">
+                        <span className="font-medium text-stone-900">{section.name}</span>
                         <span className="ml-6 flex items-center">
-                          <PlusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 group-data-[open]:hidden"
-                          />
-                          <MinusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 [.group:not([data-open])_&]:hidden"
-                          />
+                          <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                          <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
                         </span>
                       </DisclosureButton>
                     </h3>
@@ -317,14 +155,12 @@ export default function Product() {
                               id={`filter-${section.id}-${optionIdx}`}
                               name={`${section.id}[]`}
                               type="checkbox"
-                              onChange={() => {
-                                handleParams(option.value, section.id);
-                              }}
-                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              onChange={() => handleParams(option.value, section.id)}
+                              className="h-4 w-4 rounded border-stone-300 text-brand-700 focus:ring-brand-500"
                             />
                             <label
                               htmlFor={`filter-${section.id}-${optionIdx}`}
-                              className="ml-3 text-sm text-gray-600"
+                              className="ml-3 text-sm text-stone-600"
                             >
                               {option.label}
                             </label>
@@ -335,67 +171,113 @@ export default function Product() {
                   </Disclosure>
                 ))}
                 {singleFilter.map((section) => (
-                  <Disclosure
-                    key={section.id}
-                    as="div"
-                    className="border-b border-gray-200 py-6"
-                  >
+                  <Disclosure key={section.id} as="div" className="border-b border-stone-200 py-6">
                     <h3 className="-my-3 flow-root">
-                      <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                        <span className="font-medium text-gray-900">
-                          {section.name}
-                        </span>
+                      <DisclosureButton className="group flex w-full items-center justify-between bg-white py-3 text-sm text-stone-400 hover:text-stone-500">
+                        <span className="font-medium text-stone-900">{section.name}</span>
                         <span className="ml-6 flex items-center">
-                          <PlusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 group-data-[open]:hidden"
-                          />
-                          <MinusIcon
-                            aria-hidden="true"
-                            className="h-5 w-5 [.group:not([data-open])_&]:hidden"
-                          />
+                          <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                          <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
                         </span>
                       </DisclosureButton>
                     </h3>
                     <DisclosurePanel className="pt-6">
-                      <div className="space-y-1">
-                        <FormControl>
-                          <RadioGroup
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            value={currentValue} // Controlled component
-                            onChange={(e) => {
-                              setCurrentValue(e.target.value);
-                            }} // Update state
-                            name="radio-buttons-group"
-                          >
-                            {section.options.map((option, index) => (
-                              <FormControlLabel
-                                key={option.id || index}
-                                value={option.value} // Ensure value is set
-                                control={<Radio />}
-                                label={option.label}
-                              />
-                            ))}
-                          </RadioGroup>
-                        </FormControl>
-                      </div>
+                      <FormControl>
+                        <RadioGroup
+                          value={currentValue}
+                          onChange={(event) => setCurrentValue(event.target.value)}
+                          name="radio-buttons-group"
+                        >
+                          {section.options.map((option, index) => (
+                            <FormControlLabel
+                              key={option.id || index}
+                              value={option.value}
+                              control={<Radio />}
+                              label={option.label}
+                            />
+                          ))}
+                        </RadioGroup>
+                      </FormControl>
                     </DisclosurePanel>
                   </Disclosure>
                 ))}
               </form>
 
-              {/* Product grid */}
               <div className="lg:col-span-4">
-                <div className="w-full flex flex-wrap justify-center bg-white">
-                  {mens_kurta.map((item, index) => {
-                    return <ProductCard key={index} product={item} />;
-                  })}
+                <div className="flex w-full flex-wrap justify-center gap-4 bg-transparent">
+                  {storefrontCatalog.map((item, index) => (
+                    <ProductCard
+                      key={`${item.productId ?? "product"}-${item.title}-${index}`}
+                      product={item}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
           </section>
-        </main>
-      </div>
+        </div>
+      </main>
+
+      <Dialog
+        open={mobileFiltersOpen}
+        onClose={setMobileFiltersOpen}
+        className="relative z-40 lg:hidden"
+      >
+        <DialogBackdrop className="fixed inset-0 bg-black/25" />
+        <div className="fixed inset-0 z-40 flex">
+          <DialogPanel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
+            <div className="flex items-center justify-between px-4">
+              <h2 className="text-lg font-medium text-stone-900">Filters</h2>
+              <button
+                type="button"
+                onClick={() => setMobileFiltersOpen(false)}
+                className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-stone-400"
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon className="h-6 w-6" />
+              </button>
+            </div>
+
+            <form className="mt-4 border-t border-stone-200">
+              {filters.map((section) => (
+                <Disclosure key={section.id} as="div" className="border-t border-stone-200 px-4 py-6">
+                  <h3 className="-mx-2 -my-3 flow-root">
+                    <DisclosureButton className="group flex w-full items-center justify-between bg-white px-2 py-3 text-stone-400 hover:text-stone-500">
+                      <span className="font-medium text-stone-900">{section.name}</span>
+                      <span className="ml-6 flex items-center">
+                        <PlusIcon className="h-5 w-5 group-data-[open]:hidden" />
+                        <MinusIcon className="h-5 w-5 [.group:not([data-open])_&]:hidden" />
+                      </span>
+                    </DisclosureButton>
+                  </h3>
+                  <DisclosurePanel className="pt-6">
+                    <div className="space-y-6">
+                      {section.options.map((option, optionIdx) => (
+                        <div key={option.value} className="flex items-center">
+                          <input
+                            defaultValue={option.value}
+                            defaultChecked={option.checked}
+                            id={`filter-mobile-${section.id}-${optionIdx}`}
+                            name={`${section.id}[]`}
+                            type="checkbox"
+                            className="h-4 w-4 rounded border-stone-300 text-brand-700 focus:ring-brand-500"
+                          />
+                          <label
+                            htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                            className="ml-3 min-w-0 flex-1 text-stone-500"
+                          >
+                            {option.label}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              ))}
+            </form>
+          </DialogPanel>
+        </div>
+      </Dialog>
     </div>
   );
 }

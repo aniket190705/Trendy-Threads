@@ -1,38 +1,30 @@
-import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../../Context/AuthContext";
+"use client";
 
-export default function PaymentSuccess() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { id } = useParams();
+import { useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../../Context/AuthContext";
+import { buildApiUrl } from "@/lib/api";
+
+export default function PaymentSuccess({ orderId }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { setCart, setCartItems } = useAuth();
 
   useEffect(() => {
-    const query = new URLSearchParams(location.search);
-    const razorpay_payment_id = query.get("razorpay_payment_id");
-    const razorpay_order_id = query.get("razorpay_order_id");
-    const orderId = query.get("orderId") || id;
+    const razorpayPaymentId = searchParams.get("razorpay_payment_id");
+    const resolvedOrderId = searchParams.get("orderId") || orderId;
 
-    console.log("Payment details from successful:", {
-      razorpay_payment_id,
-      razorpay_order_id,
-      orderId,
-    });
-
-    if (razorpay_payment_id && orderId) {
-      // Send details to backend to update order status
-      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/payments/updateinfo`, {
+    if (razorpayPaymentId && resolvedOrderId) {
+      fetch(buildApiUrl("/api/payments/updateinfo"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          payment_id: razorpay_payment_id,
-          order_id: orderId,
+          payment_id: razorpayPaymentId,
+          order_id: resolvedOrderId,
         }),
       })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Payment verified:", data);
+        .then((response) => response.json())
+        .then(() => {
           const emptyCart = {
             cartItems: [],
             totalPrice: 0,
@@ -46,23 +38,21 @@ export default function PaymentSuccess() {
           localStorage.setItem("cart", JSON.stringify(emptyCart));
           localStorage.setItem("cartItems", JSON.stringify([]));
 
-          navigate("/account/order", { replace: true });
+          router.replace("/account/order");
         })
-        .catch((err) => console.error("Payment verify failed", err));
+        .catch((error) => console.error("Payment verify failed", error));
     }
-  }, [id, location, navigate, setCart, setCartItems]);
+  }, [orderId, router, searchParams, setCart, setCartItems]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold text-green-600">
-        Payment Successfulllllll 🎉
-      </h1>
-      <p className="mt-2 text-gray-600">
+    <div className="flex h-[70vh] flex-col items-center justify-center px-4 text-center">
+      <h1 className="font-serif text-4xl text-emerald-600">Payment Successful</h1>
+      <p className="mt-3 text-stone-600">
         Your order has been placed successfully.
       </p>
       <button
-        onClick={() => navigate("/account/order")}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg"
+        onClick={() => router.push("/account/order")}
+        className="mt-6 rounded-full bg-brand-800 px-5 py-3 font-semibold text-white"
       >
         View Order History
       </button>

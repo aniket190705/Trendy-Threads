@@ -1,22 +1,22 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+"use client";
+
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import SmartImage from "@/components/common/SmartImage";
 import { useAuth } from "../../../Context/AuthContext";
+import { buildApiUrl } from "@/lib/api";
+import { findProductById } from "@/lib/catalog";
 
-export default function ProductDetails() {
-  const { isSignedIn } = useAuth();
-
+export default function ProductDetails({ productId }) {
+  const { isSignedIn, user, cart, setCart, setCartItems } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [notification, setNotification] = useState(""); // 🔔 State for messages
+  const [notification, setNotification] = useState("");
+  const router = useRouter();
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { user, cart, setCart, setCartItems } = useAuth();
-  const item = location.state || location.state.item || {};
+  const item = useMemo(() => findProductById(productId) || {}, [productId]);
 
   const fetchCartData = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/cart/${user._id}`
-    );
+    const response = await fetch(buildApiUrl(`/api/cart/${user._id}`));
     const data = await response.json();
     localStorage.setItem("cart", JSON.stringify(data));
     localStorage.setItem("cartItems", JSON.stringify(data.cartItems));
@@ -26,43 +26,37 @@ export default function ProductDetails() {
   };
 
   const createCartItem = async (cartId) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/cartitems`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          cart: cartId,
-          price: item.price,
-          discountedPrice: item.discountedPrice,
-          userId: user._id,
-          quantity: item.quantity || 1,
-          title: item.title,
-          description: item.description,
-          discountPercent: item.discountPersent,
-          imageUrl: item.imageUrl,
-          color: item.color,
-          productId: item.productId,
-        }),
-      }
-    );
-    return await response.json();
+    const response = await fetch(buildApiUrl("/api/cartitems"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cart: cartId,
+        price: item.price,
+        discountedPrice: item.discountedPrice,
+        userId: user._id,
+        quantity: item.quantity || 1,
+        title: item.title,
+        description: item.description,
+        discountPercent: item.discountPersent,
+        imageUrl: item.imageUrl,
+        color: item.color,
+        productId: item.productId,
+      }),
+    });
+    return response.json();
   };
 
   const updateCartItem = async (existingItem) => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/api/cartitems/update`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          quantity: existingItem.quantity + 1,
-          userId: user._id,
-          productId: existingItem.productId,
-        }),
-      }
-    );
-    return await response.json();
+    const response = await fetch(buildApiUrl("/api/cartitems/update"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        quantity: existingItem.quantity + 1,
+        userId: user._id,
+        productId: existingItem.productId,
+      }),
+    });
+    return response.json();
   };
 
   const handleAddToBag = async () => {
@@ -71,15 +65,17 @@ export default function ProductDetails() {
       return;
     }
 
-    if (loading) return;
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
 
     try {
       const latestCart = await fetchCartData();
       const latestCartItems = latestCart?.cartItems || [];
-
       const existingItem = latestCartItems.find(
-        (ci) => ci.productId === item.productId
+        (cartItem) => cartItem.productId === item.productId,
       );
 
       if (existingItem) {
@@ -95,108 +91,113 @@ export default function ProductDetails() {
       }
 
       await fetchCartData();
-      navigate("/cart", { state: item });
-    } catch (err) {
+      router.push("/cart");
+    } catch (error) {
       setNotification("Something went wrong. Try again!");
-      console.error("Error adding to bag:", err);
+      console.error("Error adding to bag:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  if (!item?.productId) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8">
+        <h1 className="font-serif text-3xl text-brand-900">Product not found</h1>
+        <p className="mt-3 text-stone-500">
+          The selected product could not be loaded.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white">
-      <div className="pt-6">
-        {/* 🔔 Notification Banner */}
-
-        {/* Product Gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-          <img
-            alt={item.imageUrl}
-            src={item.imageUrl}
-            className="hidden size-full rounded-lg object-cover lg:block"
-          />
-          <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-            <img
-              alt={item.imageUrl}
-              src={item.imageUrl}
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-            <img
-              alt={item.imageUrl}
-              src={item.imageUrl}
-              className="aspect-3/2 w-full rounded-lg object-cover"
-            />
-          </div>
-          <img
-            alt={item.imageUrl}
-            src={item.imageUrl}
-            className="aspect-4/5 size-full object-cover sm:rounded-lg lg:aspect-auto"
-          />
-        </div>
-
-        {/* Product Info */}
-        <div className="mx-auto max-w-2xl px-4 pt-10 pb-16 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto_auto_1fr] lg:gap-x-8 lg:px-8 lg:pt-16 lg:pb-24">
-          <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {item.brand}
-            </h1>
+    <div className="px-4 pb-12 pt-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl rounded-[36px] border border-white/70 bg-white/80 p-6 shadow-soft backdrop-blur sm:p-8">
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="relative min-h-[30rem] overflow-hidden rounded-[28px] bg-stone-50 sm:col-span-2">
+              <SmartImage
+                alt={item.imageUrl}
+                src={item.imageUrl}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+            <div className="relative min-h-60 overflow-hidden rounded-[24px] bg-stone-50">
+              <SmartImage
+                alt={item.imageUrl}
+                src={item.imageUrl}
+                fill
+                sizes="25vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative min-h-60 overflow-hidden rounded-[24px] bg-stone-50">
+              <SmartImage
+                alt={item.imageUrl}
+                src={item.imageUrl}
+                fill
+                sizes="25vw"
+                className="object-cover"
+              />
+            </div>
           </div>
 
-          {/* Price + Add to Bag */}
-          <div className="mt-4 lg:row-span-3 lg:mt-0">
-            <p className="text-3xl tracking-tight text-gray-900">
-              ₹{item.discountedPrice}
-            </p>
-
-            <button
-              onClick={handleAddToBag}
-              disabled={loading}
-              className={`mt-10 flex w-full items-center justify-center rounded-md border border-transparent px-8 py-3 text-base font-medium text-white focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden 
-                ${
-                  loading
-                    ? "bg-indigo-400 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700"
-                }`}
-            >
-              {loading ? "Adding..." : "Add to bag"}
-            </button>
-            {notification && (
-              <div className="w-full sm:px-6 lg:max-w-7xl lg:px-2 mb-4 mt-4">
-                <div className="rounded-md w-full bg-yellow-100 p-4 flex justify-between items-center">
-                  <p className="text-sm w-full flex-1 font-medium text-yellow-800">
-                    {notification}
-                  </p>
-                  <button
-                    onClick={() => {
-                      setNotification("");
-                      if (!isSignedIn) navigate("/account/signin"); // redirect if user clicks dismiss
-                    }}
-                    className="ml-3 text-yellow-700 font-semibold hover:underline"
-                  >
-                    Sign In
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Description */}
-          <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16">
+          <div className="flex flex-col justify-between rounded-[28px] border border-stone-200 bg-stone-50/70 p-6">
             <div>
-              <h3 className="sr-only text-gray-900">Description</h3>
-              <div className="space-y-6">
-                <p className="text-base text-gray-900">{item.title}</p>
+              <p className="text-xs uppercase tracking-[0.28em] text-stone-400">
+                {item.brand}
+              </p>
+              <h1 className="mt-3 font-serif text-4xl text-brand-900">{item.title}</h1>
+              <p className="mt-6 text-3xl font-semibold text-brand-800">
+                Rs. {item.discountedPrice}
+              </p>
+              <div className="mt-3 flex items-center gap-3 text-sm">
+                <span className="text-stone-400 line-through">Rs. {item.price}</span>
+                <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-700">
+                  {item.discountPersent}% off
+                </span>
+              </div>
+              <div className="mt-8 space-y-4 text-sm leading-7 text-stone-600">
+                <p>{item.description}</p>
+                <p>Color: {item.color || "N/A"}</p>
               </div>
             </div>
+
             <div className="mt-10">
-              <h3 className="text-sm font-medium text-gray-900">Highlights</h3>
-            </div>
-            <div className="mt-10">
-              <h2 className="text-sm font-medium text-gray-900">Details</h2>
-              <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{item.description}</p>
-              </div>
+              <button
+                onClick={handleAddToBag}
+                disabled={loading}
+                className={`flex w-full items-center justify-center rounded-full px-8 py-4 text-base font-semibold text-white transition ${
+                  loading
+                    ? "cursor-not-allowed bg-brand-300"
+                    : "bg-brand-800 hover:bg-brand-900"
+                }`}
+              >
+                {loading ? "Adding..." : "Add to bag"}
+              </button>
+
+              {notification && (
+                <div className="mt-4 rounded-2xl bg-amber-50 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-medium text-amber-800">{notification}</p>
+                    <button
+                      onClick={() => {
+                        setNotification("");
+                        if (!isSignedIn) {
+                          router.push("/account/signin");
+                        }
+                      }}
+                      className="rounded-full bg-amber-200 px-3 py-1 text-sm font-semibold text-amber-800 transition hover:bg-amber-300"
+                    >
+                      Sign In
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
