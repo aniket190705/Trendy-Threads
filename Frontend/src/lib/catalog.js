@@ -1,6 +1,6 @@
 import { mens_kurta } from "@/data/mensKurta";
-import { dressPage1 } from "../../../ecommerceData/ecommerce-products-data-master/dress/page1";
-import { mensShoesPage1 } from "../../../ecommerceData/ecommerce-products-data-master/shoes/shoes";
+import { dressPage1 } from "@/data/dressPage1";
+import { mensShoesPage1 } from "@/data/mensShoesPage1";
 
 export const homeCatalog = [
   ...mens_kurta.map((product) => ({ ...product, category: "Men" })),
