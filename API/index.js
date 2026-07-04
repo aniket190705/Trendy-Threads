@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 
 const allowedOrigins = [
-    "https://trendy-threads-sigma.vercel.app",
+    "https://trendy-threads-mu.vercel.app",
     "http://localhost:5173",
     "http://localhost:3001",
     process.env.FRONTEND_URL
