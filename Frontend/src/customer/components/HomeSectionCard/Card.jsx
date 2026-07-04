@@ -1,19 +1,18 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import SmartImage from "@/components/common/SmartImage";
 
 const Card = ({ product, isSingleCard = false }) => {
-  const router = useRouter();
   const currentProduct = product[0];
 
   return (
-    <div
+    <Link
+      href={`/product/${currentProduct.productId}`}
       className={`group ${
         isSingleCard
           ? "w-full"
           : "w-[80%] flex-shrink-0 sm:w-[50%] md:w-[25%] lg:w-[20%]"
-      } cursor-pointer overflow-hidden rounded-[28px] border border-white/70 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-2xl`}
-      onClick={() => router.push(`/product/${currentProduct.productId}`)}
+      } block overflow-hidden rounded-[28px] border border-white/70 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-2xl`}
     >
       <div className="relative h-[17rem] w-full overflow-hidden bg-stone-50">
         <SmartImage
@@ -35,7 +34,7 @@ const Card = ({ product, isSingleCard = false }) => {
           Rs. {currentProduct.discountedPrice}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
